@@ -2,18 +2,19 @@
 public class Caesar {
 
 	private char[] ciphertext;
-	
-	public Caesar(char[] ciphertext){
+	private int spaceSize;
+
+	public Caesar(char[] ciphertext, int size){
 		setCiphertext(ciphertext);
+		this.setSpaceSize(size);
 	}
 	
 	public char[] decrypt(int key){
-		char[] cleartext = this.getCiphertext();
+		char [] cleartext = new char[this.getCiphertext().length];
+		for (int i = 0; i < cleartext.length; i = (i + 1)) {
+			cleartext[i] = (char)((this.getSpaceSize() + (this.getCiphertext()[i] - key)) % this.getSpaceSize());
+		}
 		return cleartext;
-	}
-	
-	public void blivit(){
-		System.out.println("foobar");
 	}
 
 	public char[] getCiphertext() {
@@ -24,4 +25,11 @@ public class Caesar {
 		this.ciphertext = ciphertext;
 	}
 	
+	public int getSpaceSize() {
+		return spaceSize;
+	}
+
+	public void setSpaceSize(int spaceSize) {
+		this.spaceSize = spaceSize;
+	}
 }
