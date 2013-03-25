@@ -7,9 +7,13 @@ public class Caesar {
 		setCiphertext(ciphertext);
 	}
 	
-	private char[] decrypt(int key){
+	public char[] decrypt(int key){
 		char[] cleartext = this.getCiphertext();
 		return cleartext;
+	}
+	
+	public void blivit(){
+		System.out.println("F00B4R");
 	}
 
 	public char[] getCiphertext() {
