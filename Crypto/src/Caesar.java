@@ -13,7 +13,7 @@ public class Caesar {
 	}
 	
 	public void blivit(){
-		System.out.println("F00B4R");
+		System.out.println("foobar");
 	}
 
 	public char[] getCiphertext() {
