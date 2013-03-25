@@ -14,6 +14,7 @@ public class Substitution {
 
 	public void crack() throws IOException{
 		char[] guess = randomGuess(getSpaceSize());
+		char[] clearText = decrypt(getCiphertext(), guess);
 		
 		int nGramSize = 3;
 		ArrayList<NGram> counts = findNGrams(nGramSize);
@@ -41,9 +42,23 @@ public class Substitution {
 		return guess;
 	}
 
-	private void decrypt(){
+	private char[] decrypt(char[] cipher, char[] guess){
+		char[] clear = new char[cipher.length];
+		int size = getSpaceSize();
+		char[] alphabet = new char[size];
+		for (int i=0; i<size; i++){		// works
+			alphabet[i] = (char)(('a' + i)%size);
+		}
 		
+		for(int i=0; i<cipher.length; i++){
+			int spot = 0;
+			while(cipher[i] != guess[spot]){		// where in the cipher alphabet is this char?
+				spot++;
+			}
+			clear[i] = alphabet[spot];				// put corresponding position in ordered alphabet into clear
+		}
 		
+		return clear;
 	}
 	
 	private ArrayList<NGram> findNGrams(int n){
