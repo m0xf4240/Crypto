@@ -14,8 +14,11 @@ public class Driver {
 		char[] ciphertext = Tools.readFile(ciphertextPath);
 		int size=255;
 		
-		Caesar c = new Caesar(ciphertext, size);
-		c.bruteForce();
+		//Caesar c = new Caesar(ciphertext, size);
+		//c.bruteForce();
+		
+		Substitution s = new Substitution(ciphertext, size);
+		s.bruteForce();
 	}
 	
 }
