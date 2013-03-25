@@ -57,7 +57,6 @@ public class Substitution {
 			}
 			clear[i] = alphabet[spot];				// put corresponding position in ordered alphabet into clear
 		}
-		
 		return clear;
 	}
 	
