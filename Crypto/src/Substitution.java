@@ -45,4 +45,13 @@ public class Substitution {
 		this.spaceSize = spaceSize;
 	}
 
+	public int[] frequency() {
+		int[] counts = new int[this.getSpaceSize()];
+		for (int i=0; i<this.getCiphertext().length; i++) {
+			int num = (int)(getCiphertext()[i]);
+			counts[num] += 1;
+		}
+		return counts;
+	}
+	
 }
