@@ -15,13 +15,50 @@ public class Substitution {
 	public void crack() throws IOException{
 		char[] guess = randomGuess(getSpaceSize());
 		char[] clearText = decrypt(getCiphertext(), guess);
-		
 		int nGramSize = 3;
-		ArrayList<NGram> counts = findNGrams(nGramSize);
+		ArrayList<NGram> nGramCounts = findNGrams(nGramSize, clearText);
+		double fit = score(nGramCounts);
+		int counter = 0;
+		while (counter<1000) {
+			char[] nextGuess = changeGuess(guess);
+			clearText = decrypt(getCiphertext(), nextGuess);
+			nGramCounts = findNGrams(nGramSize, clearText);
+			double nextFit = score(nGramCounts);
+			if(nextFit>fit) {
+				guess = nextGuess;
+				fit = nextFit;
+				counter = 0;
+				System.out.println(clearText);
+			}
+		}
+		// clearText contains the best decryption found
 		//System.in.read();
 	}
 
 	
+	private char[] changeGuess(char[] guess) {
+		char[] g = new char[guess.length];
+		for(int i=0; i<guess.length; i++) {
+			g[i] = guess[i];
+		}
+		char a = (char)(Math.random()*255);
+		char b = (char)(Math.random()*255);
+		for(int i=0; i<g.length; i++) {		// swaps two random spots in g
+			if(g[i] ==a) {
+				g[i] = b;
+			}
+			if(g[i] ==b) {
+				g[i] = a;
+			}
+		}
+		return g;
+	}
+
+	private double score(ArrayList<NGram> nGramCounts) {		// not sure about this
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 	private char[] randomGuess(int size) {
 		char[] guess = new char[size];
 		for (int i=0; i<size; i++){		// works
@@ -61,14 +98,14 @@ public class Substitution {
 		return clear;
 	}
 	
-	private ArrayList<NGram> findNGrams(int n){
+	private ArrayList<NGram> findNGrams(int n, char[] cleartext){
 		ArrayList<NGram> counts = new ArrayList<NGram>(0);
 		System.out.println("count size " + counts.size());
 		
-		for(int i = 0; i<this.getCiphertext().length-(n-1); i++){
-			String s = ""+(this.getCiphertext()[i]);
+		for(int i = 0; i<cleartext.length-(n-1); i++){
+			String s = ""+(cleartext[i]);
 			for (int j=1; j<n; j++){
-				s = s+this.getCiphertext()[i+j];
+				s = s+cleartext[i+j];
 			}
 			boolean foundMatch=false;
 			for (int k=0; k<counts.size(); k++){
