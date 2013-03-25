@@ -12,13 +12,24 @@ public class Substitution {
 	}
 
 	public void crack() throws IOException{
-		decrypt(3);
+		char[] guess = randomGuess(getSpaceSize());
+		
+		int nGramSize = 3;
+		ArrayList<NGram> counts = findNGrams(nGramSize);
 		//System.in.read();
 	}
 
-	private void decrypt(int nGramSize){
-		ArrayList<NGram> counts = findNGrams(nGramSize);
-		//counts;
+	
+	private char[] randomGuess(int size) {
+		char[] guess = new char[size];
+		for (int i=0; i<size; i++){		// works
+			guess[i] = (char)(('a' + i)%size);
+		}
+		return guess;
+	}
+
+	private void decrypt(){
+		
 		
 	}
 	

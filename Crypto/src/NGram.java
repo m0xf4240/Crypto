@@ -27,7 +27,7 @@ public class NGram {
 
 	@Override
 	public String toString() {
-		return "NGram [c=" + c + "]";
+		return "NGram [s=" + s + ", c=" + c + "]";
 	}
 
 }
