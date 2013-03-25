@@ -3,7 +3,7 @@ public class Caesar {
 
 	private char[] ciphertext;
 	
-	public void Caesar(char[] ciphertext){
+	public Caesar(char[] ciphertext){
 		setCiphertext(ciphertext);
 	}
 	
