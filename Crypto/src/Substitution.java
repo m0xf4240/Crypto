@@ -1,5 +1,6 @@
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.*;
+
 public class Substitution {
 	private char[] ciphertext;
 	private int[] inttext;
@@ -25,6 +26,18 @@ public class Substitution {
 		for (int i=0; i<size; i++){		// works
 			guess[i] = (char)(('a' + i)%size);
 		}
+		//System.out.println(guess);
+		List<Character> g = new ArrayList<Character>();
+		for(char ch : guess){
+			g.add(ch);
+		}
+		Collections.shuffle(g);
+		int i=0;
+		for(Character ch : g) {			// appears to work
+			guess[i++] = ch;
+		}
+		
+		//System.out.println(guess);
 		return guess;
 	}
 
