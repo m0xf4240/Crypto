@@ -28,7 +28,7 @@ public class Substitution {
 				guess = nextGuess;
 				fit = nextFit;
 				counter = 0;
-				System.out.println(clearText);
+				System.out.println(clearText);	//not getting here
 			}
 		}
 		// clearText contains the best decryption found
@@ -86,11 +86,11 @@ public class Substitution {
 		for (int i=0; i<size; i++){		// works
 			alphabet[i] = (char)(('a' + i)%size);
 		}
-		
 		for(int i=0; i<cipher.length; i++){
 			int spot = 0;
+			System.out.println(i + " " + cipher[i]);
 			while(cipher[i] != guess[spot]){		// where in the cipher alphabet is this char?
-				spot++;
+				spot++;								// !!!!!!!! seemingly random aioobe error thrown in while
 			}
 			clear[i] = alphabet[spot];				// put corresponding position in ordered alphabet into clear
 		}
