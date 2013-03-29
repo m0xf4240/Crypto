@@ -25,7 +25,7 @@ public class CountText {
 		int[] abCounts = new int[spaceSize];
 
 		//FileWriter fstream = new FileWriter("out4.txt");
-		FileWriter fstream = new FileWriter("out1.txt");
+		FileWriter fstream = new FileWriter("warandpeace1.txt");
 		BufferedWriter out = new BufferedWriter(fstream);
 		Scanner keyboard = new Scanner(System.in);
 
@@ -44,7 +44,7 @@ public class CountText {
 //			second = (char) fis.read();
 			while (fis.available() > 0) {
 				//TODO: Change to second/third/fourth as needed
-				third = (char) fis.read();
+				current = (char) fis.read();
 				abCounts[current] +=1;//((int)current*spaceSize*spaceSize)+(int)second*spaceSize+(int)third]+=1;
 				//current=second;
 				//second=third;
