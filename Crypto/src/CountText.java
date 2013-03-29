@@ -22,9 +22,9 @@ public class CountText {
 		//Declare variables
 		int spaceSize=255;
 		int messageLength=0;
-		int[] abCounts = new int[spaceSize*spaceSize];
+		int[] abCounts = new int[spaceSize*spaceSize*spaceSize];
 
-		FileWriter fstream = new FileWriter("out.txt");
+		FileWriter fstream = new FileWriter("warandpeace.txt");
 		BufferedWriter out = new BufferedWriter(fstream);
 		Scanner keyboard = new Scanner(System.in);
 
@@ -38,17 +38,15 @@ public class CountText {
 			FileInputStream fis = new FileInputStream(file);
 			char current;
 			char second;
-			//			char third;
-			//			char fourth;
+			char third;
 			current = (char) fis.read();
+			second = (char) fis.read();
 			while (fis.available() > 0) {
-				//TODO: Change to second/third/fourth as needed
-				second = (char) fis.read();
-				//				keyboard.next();
-				abCounts[((int)current*spaceSize)+(int)second]+=1;
+				//TODO: Change to second/third as needed
+				third = (char) fis.read();
+				abCounts[((int)current*spaceSize*spaceSize)+((int)second*spaceSize)+(int)third]+=1;
 				current=second;
-				//				second=third;
-				//				third=fourth;
+				second=third;
 				messageLength++;
 			}
 		} catch (IOException e) {
@@ -60,7 +58,6 @@ public class CountText {
 		int sum=0;
 		//Print counts to file
 		for (int i=0; i<abCounts.length; i++){
-			int temp=i/spaceSize;
 			sum+=abCounts[i];
 			out.write(abCounts[i]+"\n");
 		}
