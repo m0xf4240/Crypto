@@ -24,7 +24,8 @@ public class CountText {
 		int messageLength=0;
 		int[] abCounts = new int[spaceSize*spaceSize*spaceSize];
 
-		FileWriter fstream = new FileWriter("out4.txt");
+		//FileWriter fstream = new FileWriter("out4.txt");
+		FileWriter fstream = new FileWriter("warandpeace.txt");
 		BufferedWriter out = new BufferedWriter(fstream);
 		Scanner keyboard = new Scanner(System.in);
 
