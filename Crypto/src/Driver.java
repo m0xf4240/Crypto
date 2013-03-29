@@ -15,7 +15,7 @@ public class Driver {
 		String monoTextPath = "new1.txt";
 		String baseLineTextPath = "new"+nAsString+".txt";
 		
-		System.in.read();
+//		System.in.read();
 
 //		String ciphertextPath = args[0];
 //		String monoTextPath = args[1]; //new1.txt

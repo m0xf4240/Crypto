@@ -25,7 +25,7 @@ public class CountText {
 		int[] abCounts = new int[spaceSize];
 
 		//FileWriter fstream = new FileWriter("out4.txt");
-		FileWriter fstream = new FileWriter("thultum1.txt");
+		FileWriter fstream = new FileWriter("outch.txt");
 		BufferedWriter out = new BufferedWriter(fstream);
 		Scanner keyboard = new Scanner(System.in);
 
@@ -62,7 +62,9 @@ public class CountText {
 //			int temp=i/spaceSize;
 //			sum+=abCounts[i];
 //			out.write(abCounts[i]+"\n");
-			out.write(((char)(i%spaceSize))+ "\t"+abCounts[i] + "\n");
+			if (abCounts[i]!=0){
+				out.write(i+"\n");
+			}
 		}
 		System.out.println("sum:"+sum);
 		out.close();
