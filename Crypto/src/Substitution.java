@@ -29,8 +29,13 @@ public class Substitution {
 				guess = nextGuess;
 				fit = nextFit;
 				counter = 0;
-				System.out.println(clearText);	//not getting here
+				System.out.println("hi"+clearText);	//not getting here
 			}
+			counter++;
+			for(int i=0; i<guess.length; i++){
+				System.out.print(guess[i]);
+			}
+			System.out.println();
 		}
 		// clearText contains the best decryption found
 		//System.in.read();
@@ -70,7 +75,7 @@ public class Substitution {
 		for(char ch : guess){
 			g.add(ch);
 		}
-		Collections.shuffle(g);
+		//Collections.shuffle(g);
 		int i=0;
 		for(Character ch : g) {			// appears to work
 			guess[i++] = ch;
@@ -90,8 +95,8 @@ public class Substitution {
 					break;
 				}
 			}
-			System.out.println();
 		}
+		System.out.println();
 		return clear;
 	}
 	
