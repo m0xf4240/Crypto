@@ -12,10 +12,11 @@ public class Substitution {
 		this.setSpaceSize(size);
 	}
 
-	public void crack() throws IOException{
+	public void crack(int nGramSize) throws IOException{
 		char[] guess = randomGuess(getSpaceSize());
 		char[] clearText = decrypt(getCiphertext(), guess);
-		int nGramSize = 3;
+//		TODO: Remove next line
+		nGramSize = 3;
 		ArrayList<NGram> nGramCounts = findNGrams(nGramSize, clearText);
 		double fit = score(nGramCounts);
 		int counter = 0;
@@ -62,7 +63,7 @@ public class Substitution {
 	private char[] randomGuess(int size) {
 		char[] guess = new char[size];
 		for (int i=0; i<size; i++){		// works
-			guess[i] = (char)(('a' + i)%size);
+			guess[i] = (char)((i)%size);
 		}
 		//System.out.println(guess);
 		List<Character> g = new ArrayList<Character>();
@@ -81,20 +82,16 @@ public class Substitution {
 
 	private char[] decrypt(char[] cipher, char[] guess){
 		char[] clear = new char[cipher.length];
-		int size = getSpaceSize();
-		char[] alphabet = new char[size];
-		for (int i=0; i<size; i++){		// works
-			alphabet[i] = (char)(('a' + i)%size);
-		}
 		for(int i=0; i<cipher.length; i++){
-			int spot = 0;
-			System.out.println(i + " " + cipher[i]);
-			while(cipher[i] != guess[spot]){		// where in the cipher alphabet is this char?
-				spot++;								// !!!!!!!! seemingly random aioobe error thrown in while
+			for (int j=0; j<guess.length; j++){
+				if (cipher[i]==guess[j]){
+					clear[i]=(char)j;
+					System.out.print(clear[i]);
+					break;
+				}
 			}
-			clear[i] = alphabet[spot];				// put corresponding position in ordered alphabet into clear
+			System.out.println();
 		}
-		
 		return clear;
 	}
 	

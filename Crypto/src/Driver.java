@@ -18,7 +18,7 @@ public class Driver {
 		//c.bruteForce();
 		
 		Substitution s = new Substitution(ciphertext, size);
-		s.crack();
+		s.crack(3);
 	}
 	
 }
