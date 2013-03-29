@@ -31,7 +31,7 @@ public class Substitution {
 				guess = nextGuess;
 				fit = nextFit;
 				counter = 0;
-				System.out.println("hi"+clearText);	//not getting here
+				//System.out.println("hi"+clearText);	//not getting here
 			}
 			counter++;
 			for(int i=0; i<guess.length; i++){
@@ -77,7 +77,7 @@ public class Substitution {
 		for (int i=0; i<size; i++){		// works
 			guess[i] = (char)((i)%size);
 		}
-		//System.out.println(guess);
+		System.out.println(guess);
 		List<Character> g = new ArrayList<Character>();
 		for(char ch : guess){
 			g.add(ch);
