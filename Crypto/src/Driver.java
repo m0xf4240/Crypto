@@ -19,6 +19,7 @@ public class Driver {
 		int size=255;
 		char[] ciphertext = Tools.readFile(ciphertextPath);
 		File file = new File(baseLineTextPath);
+		LoadText goneWithThePeaceMono = new LoadText(file, 1);
 		LoadText goneWithThePeace = new LoadText(file, (int)Math.pow(size, n));
 		
 		
@@ -27,7 +28,7 @@ public class Driver {
 		//c.bruteForce();
 		
 		Substitution s = new Substitution(ciphertext, size, goneWithThePeace.getFreq());
-		s.crack(n);
+		s.crack(n, goneWithThePeaceMono.getFreq());
 	}
 	
 }
