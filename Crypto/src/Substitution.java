@@ -31,13 +31,16 @@ public class Substitution {
 				guess = nextGuess;
 				fit = nextFit;
 				counter = 0;
-				System.out.println("hi"+clearText);	//not getting here
+				//System.out.println("hi"+clearText);	//not getting here
 			}
 			counter++;
-			for(int i=0; i<guess.length; i++){
-				System.out.print(guess[i]);
-			}
-			System.out.println();
+			//for(int i=0; i<guess.length; i++){
+			//	System.out.print(guess[i]);
+			//}
+			//System.out.println();
+		}
+		for(int i=0; i<guess.length; i++){
+			System.out.print(guess[i]);
 		}
 		// clearText contains the best decryption found
 		//System.in.read();
@@ -45,30 +48,21 @@ public class Substitution {
 
 	
 	private char[] changeGuess(char[] guess) {
-		char[] g = new char[guess.length];
-		for(int i=0; i<guess.length; i++) {
-			g[i] = guess[i];
-		}
-		char a = (char)(Math.random()*255);
-		char b = (char)(Math.random()*255);
-		for(int i=0; i<g.length; i++) {		// swaps two random spots in g
-			if(g[i] ==a) {
-				g[i] = b;
-			}
-			if(g[i] ==b) {
-				g[i] = a;
-			}
-		}
-		return g;
+		int a = (int)(Math.random()*255);
+		int b = (int)(Math.random()*255);
+		
+		char temp = guess[a];
+		guess[a]=guess[b];
+		guess[b]=temp;
+		
+		return guess;
 	}
 
 	private double score(double[] nGramFreq) {		// not sure about this
-		
 		int sqSum = 0;
 		for (int i=0; i<nGramFreq.length; i++){
 			sqSum += Math.pow(nGramFreq[i]-this.getStandardText()[i], 2);
 		}
-		
 		return Math.sqrt(sqSum);
 	}
 
