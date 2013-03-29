@@ -5,11 +5,13 @@ public class Substitution {
 	private char[] ciphertext;
 	private int[] inttext;
 	private int spaceSize;
+	private int[] standardText;
 
-	public Substitution(char[] ciphertext, int size){
+	public Substitution(char[] ciphertext, int size, int[] standardText){
 		this.setCiphertext(ciphertext);
 //		this.makeIntText();
 		this.setSpaceSize(size);
+		this.setStandardText(standardText);
 	}
 
 	public void crack(int nGramSize) throws IOException{
@@ -155,6 +157,14 @@ public class Substitution {
 
 	public void setSpaceSize(int spaceSize) {
 		this.spaceSize = spaceSize;
+	}
+
+	public int[] getStandardText() {
+		return standardText;
+	}
+
+	public void setStandardText(int[] standardText) {
+		this.standardText = standardText;
 	}
 
 	public int[] frequency() {

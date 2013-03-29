@@ -39,14 +39,12 @@ public class CountText {
 			FileInputStream fis = new FileInputStream(file);
 			char current;
 			char second;
-			//			
 			char third;
 			current = (char) fis.read();
 			second = (char) fis.read();
 			while (fis.available() > 0) {
 				//TODO: Change to second/third/fourth as needed
 				third = (char) fis.read();
-				//				keyboard.next();
 				abCounts[((int)current*spaceSize*spaceSize)+(int)second*spaceSize+(int)third]+=1;
 				current=second;
 				second=third;
