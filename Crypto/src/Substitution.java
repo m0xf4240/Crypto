@@ -71,7 +71,7 @@ public class Substitution {
 		for (int i=0; i<size; i++){		// works
 			guess[i] = (char)((i)%size);
 		}
-		//System.out.println(guess);
+		System.out.println(guess);
 		List<Character> g = new ArrayList<Character>();
 		for(char ch : guess){
 			g.add(ch);
