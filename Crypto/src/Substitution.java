@@ -8,7 +8,7 @@ public class Substitution {
 	private double[] standardText;
 	private int[] standardTextHighFreq;
 
-	public Substitution(char[] ciphertext, int size, double[] standardText){
+	public Substitution(char[] ciphertext, int size, double[] standardTextMono, double[] standardText){
 		this.setCiphertext(ciphertext);
 		//		this.makeIntText();
 		this.setSpaceSize(size);
