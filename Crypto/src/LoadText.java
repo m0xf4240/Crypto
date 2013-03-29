@@ -10,7 +10,7 @@ public class LoadText {
 	public LoadText(File file, int spaceSize){
 		this.file = file;
 		this.spaceSize = spaceSize;
-		abCounts = new double[this.spaceSize*this.spaceSize];
+		abCounts = new double[this.spaceSize];
 		initABC();
 	}
 		

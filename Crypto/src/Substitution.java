@@ -17,8 +17,6 @@ public class Substitution {
 	public void crack(int nGramSize) throws IOException{
 		char[] guess = randomGuess(getSpaceSize());
 		char[] clearText = decrypt(getCiphertext(), guess);
-//		TODO: Remove next line
-		nGramSize = 3;
 		double[] nGramFreq = findNGramsFreq(nGramSize, clearText);
 		double fit = score(nGramFreq);
 		int counter = 0;
@@ -31,19 +29,12 @@ public class Substitution {
 				guess = nextGuess;
 				fit = nextFit;
 				counter = 0;
-				//System.out.println("hi"+clearText);	//not getting here
 			}
 			counter++;
-			//for(int i=0; i<guess.length; i++){
-			//	System.out.print(guess[i]);
-			//}
-			//System.out.println();
 		}
 		for(int i=0; i<guess.length; i++){
 			System.out.print(guess[i]);
 		}
-		// clearText contains the best decryption found
-		//System.in.read();
 	}
 
 	
@@ -76,13 +67,11 @@ public class Substitution {
 		for(char ch : guess){
 			g.add(ch);
 		}
-		//Collections.shuffle(g);
+		Collections.shuffle(g);
 		int i=0;
 		for(Character ch : g) {			// appears to work
 			guess[i++] = ch;
 		}
-		
-		//System.out.println(guess);
 		return guess;
 	}
 
@@ -111,11 +100,12 @@ public class Substitution {
 		for(int i = 0; i<cleartext.length-(n-1); i++){
 			char first = (cleartext[i]);
 			char second = (cleartext[i+1]);
-			char third = (cleartext[i+2]);
+			char third;
 			if (n==2){
 				freq[first * (int)Math.pow(this.getSpaceSize(),n-1) + second] +=1;
 			}
-			else if (n == 3){
+			else if (n==3){
+				third = (cleartext[i+2]);
 				freq[first * (int)Math.pow(this.getSpaceSize(),n-1) + second*(int)Math.pow(this.getSpaceSize(),n-2) + third] +=1;
 			}
 			
