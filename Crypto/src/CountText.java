@@ -45,6 +45,7 @@ public class CountText {
 			while (fis.available() > 0) {
 				//TODO: Change to second/third/fourth as needed
 				current = (char) fis.read();
+//				System.out.println(current);
 				abCounts[current] +=1;//((int)current*spaceSize*spaceSize)+(int)second*spaceSize+(int)third]+=1;
 				//current=second;
 				//second=third;
@@ -58,14 +59,34 @@ public class CountText {
 		System.out.println("abCounts.length:"+abCounts.length);
 		int sum=0;
 		//Print counts to file
-		for (int i=0; i<abCounts.length; i++){
+//		for (int i=0; i<abCounts.length; i++){
 //			int temp=i/spaceSize;
 //			sum+=abCounts[i];
 //			out.write(abCounts[i]+"\n");
-			if (abCounts[i]!=0){
-				out.write(i+"\n");
+//		}
+		for (int i=0; i<abCounts.length; i++){
+			if (abCounts[i]==0 	&& i!='/'  && i!=':'  && i!='~'  && i!='@'  && i!='{'  && i!='}'  && i!='['  && i!=']'  
+								&& i!='%'  && i!='$'  && i!='\\' && i!=9 && i!=10 && i!=8 && i!=13 && i!=29  
+								&& i!='+' && i!='<' && i!='>' && i!='^' && i!='_' && i!='`' && i!=175){
+				out.write((char)(i)+" \n");
+				
 			}
+//			if (abCounts[i]!=0){
+//				System.out.println(i);
+//				int temp=i/spaceSize;
+//				System.out.print((char)(temp));
+//				System.out.print((char)(i%spaceSize)+":");
+//				System.out.println(abCounts[i]);
+//				sum+=abCounts[i];
+//				out.write(abCounts[i]+"\n");
+//				out.write(i+":"+((char)(i%spaceSize))+ "\t"+abCounts[i]+"\n");
+//			}
+//			int temp=i/spaceSize;
+//			sum+=abCounts[i];
+//			out.write(abCounts[i]+"\n");
+//			out.write(((char)(i%spaceSize))+ "\t"+abCounts[i] + "\n");
 		}
+		
 		System.out.println("sum:"+sum);
 		out.close();
 	}

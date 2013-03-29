@@ -32,7 +32,7 @@ public class Driver {
 		file = new File(baseLineTextPath);
 		LoadText goneWithThePeace = new LoadText(file, (int)Math.pow(size, n));
 		
-		System.in.read();
+//		System.in.read();
 		
 		//Caesar c = new Caesar(ciphertext, size);
 		//c.bruteForce();

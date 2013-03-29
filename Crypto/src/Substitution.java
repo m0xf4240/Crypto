@@ -27,16 +27,19 @@ public class Substitution {
 		System.out.println("Fit:"+fit);
 		System.in.read();
 		int counter = 0;
-		while (counter<100000) {
-			char[] nextGuess = changeGuess(guess);
+		while (fit>1) {
+			char[] nextGuess = changeGuess(guess, fit);
 			clearText = decrypt(getCiphertext(), nextGuess);
 			nGramFreq = findNGramsFreq(nGramSize, clearText);
 			double nextFit = score(nGramFreq);
+			maybePrint(clearText, nextFit, fit);
 			if(nextFit<fit) {
 				guess = nextGuess;
 				fit = nextFit;
 				counter = 0;
+				System.out.println("score: "+fit);
 			}
+			
 			counter++;
 		}
 		for(int i=0; i<guess.length; i++){
@@ -45,21 +48,34 @@ public class Substitution {
 	}
 
 
-	private char[] changeGuess(char[] guess) {
-		int a = (int)(Math.random()*255);
-		int b = (int)(Math.random()*255);
-
+	private char[] changeGuess(char[] guess, double fit) {
+//		int a = (int)(Math.random()*255);
+//		int b = (int)(Math.random()*255);
+		for (int x=0; x<250; x++){
+			if (fit<x){
+				break;
+			}
+			else{
+				swap((int)(Math.random()*255), (int)(Math.random()*255), guess);	
+			}
+		}
+//		char temp = guess[a];
+//		guess[a]=guess[b];
+//		guess[b]=temp;
+		return guess;
+	}
+	
+	private char[] swap(int a, int b, char[] guess){
 		char temp = guess[a];
 		guess[a]=guess[b];
 		guess[b]=temp;
-
 		return guess;
 	}
 
 	private double score(double[] nGramFreq) {		// not sure about this
 		double sqSum = 0;
-
 		for (int i=0; i<nGramFreq.length; i++){
+
 //			boolean good = false;
 //			for(int j=0; j<chs.length; j++){
 //				if((double)i == chs[j]){
@@ -70,13 +86,19 @@ public class Substitution {
 //					|| i==(int)'~' || i==(int)' ' || i==(int)',' || i==(int)'/' )){
 //				sqSum += 100;
 //			}
+
+			//Assume there are no weird control characters, and this is plain english
+//			if (this.getStandardText()[i]==0 	&& i!='/'  && i!=':'  && i!='~'  && i!='@'  && i!='{'  && i!='}'  && i!='['  && i!=']'  
+//					&& i!='%'  && i!='$'  && i!='\\' && i!=9 && i!=10 && i!=8 && i!=13 && i!=29  
+//					&& i!='+' && i!='<' && i!='>' && i!='^' && i!='_' && i!='`' && i!=175){
+//			if (i==29670){
+//				System.out.println();
+//			}
 			if (nGramFreq[i]>0 && this.getStandardText()[i]==0){
 				sqSum += 100;
 			}
-			
-			sqSum += Math.pow(nGramFreq[i]-this.getStandardText()[i], 2);
+			sqSum += Math.pow(nGramFreq[i]-this.getStandardText()[i], 4);
 		}
-
 		return Math.sqrt(Math.sqrt(Math.sqrt(Math.sqrt(sqSum))));
 	}
 
@@ -118,12 +140,10 @@ public class Substitution {
 			for (int j=0; j<guess.length; j++){
 				if (cipher[i]==guess[j]){
 					clear[i]=(char)j;
-					System.out.print(clear[i]);
 					break;
 				}
 			}
 		}
-		System.out.println();
 		return clear;
 	}
 
@@ -184,6 +204,18 @@ public class Substitution {
 		}
 
 		return largestIndecies;
+	}
+	
+	private void maybePrint(char[] text, double thisFit, double bestFit){
+		if (thisFit<bestFit){
+			for (int i=0; i<text.length; i++){
+				System.out.print(text[i]);
+			}
+			System.out.println();
+		}
+		else{
+			System.out.print('.');
+		}
 	}
 
 	public char[] getCiphertext() {
