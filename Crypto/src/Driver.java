@@ -15,7 +15,7 @@ public class Driver {
 		String monoTextPath = "new1.txt";
 		String baseLineTextPath = "new"+nAsString+".txt";
 		
-		System.in.read();
+//		System.in.read();
 
 //		String ciphertextPath = args[0];
 //		String monoTextPath = args[1]; //new1.txt
@@ -32,7 +32,7 @@ public class Driver {
 		file = new File(baseLineTextPath);
 		LoadText goneWithThePeace = new LoadText(file, (int)Math.pow(size, n));
 		
-		System.in.read();
+//		System.in.read();
 		
 		//Caesar c = new Caesar(ciphertext, size);
 		//c.bruteForce();

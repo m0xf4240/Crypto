@@ -52,6 +52,13 @@ public class Substitution {
 	private double score(double[] nGramFreq) {		// not sure about this
 		int sqSum = 0;
 		for (int i=0; i<nGramFreq.length; i++){
+			//Assume there are no weird control characters, and this is plain english
+			if (this.getStandardText()[i]==0 	&& i!='/'  && i!=':'  && i!='~'  && i!='@'  && i!='{'  && i!='}'  && i!='['  && i!=']'  
+					&& i!='%'  && i!='$'  && i!='\\' && i!=9 && i!=10 && i!=8 && i!=13 && i!=29  
+					&& i!='+' && i!='<' && i!='>' && i!='^' && i!='_' && i!='`' && i!=175){
+				sqSum -= 10;
+			}
+			
 			sqSum += Math.pow(nGramFreq[i]-this.getStandardText()[i], 2);
 		}
 		return Math.sqrt(sqSum);
