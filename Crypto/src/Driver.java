@@ -23,7 +23,7 @@ public class Driver {
 		//Caesar c = new Caesar(ciphertext, size);
 		//c.bruteForce();
 		
-		Substitution s = new Substitution(ciphertext, size, goneWithThePeace.getCount());
+		Substitution s = new Substitution(ciphertext, size, goneWithThePeace.getFreq());
 		s.crack(3);
 	}
 	

@@ -5,12 +5,12 @@ public class LoadText {
 
 	private File file;
 	private int spaceSize;
-	private int[] abCounts;
+	private double [] abCounts;
 	
 	public LoadText(File file, int spaceSize){
 		this.file = file;
 		this.spaceSize = spaceSize;
-		abCounts = new int[this.spaceSize*this.spaceSize];
+		abCounts = new double[this.spaceSize*this.spaceSize];
 		initABC();
 	}
 		
@@ -21,9 +21,15 @@ public class LoadText {
 		
 		Scanner scanner;
 		try {
+			int total=0;
 			scanner = new Scanner(this.file);
 			for (int i=0; i<abCounts.length; i++){
-				abCounts[i]=scanner.nextInt();
+				int nextInt = scanner.nextInt();
+				abCounts[i]=nextInt;
+				total+=nextInt;
+			}
+			for (int i=0; i<abCounts.length; i++){
+				abCounts[i]=abCounts[i]/total;
 			}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -31,7 +37,7 @@ public class LoadText {
 		}
 	}
 
-	public int[] getCount(){
+	public double[] getFreq(){
 		return this.abCounts;
 	}
 }

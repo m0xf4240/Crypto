@@ -5,9 +5,9 @@ public class Substitution {
 	private char[] ciphertext;
 	private int[] inttext;
 	private int spaceSize;
-	private int[] standardText;
+	private double[] standardText;
 
-	public Substitution(char[] ciphertext, int size, int[] standardText){
+	public Substitution(char[] ciphertext, int size, double[] standardText){
 		this.setCiphertext(ciphertext);
 //		this.makeIntText();
 		this.setSpaceSize(size);
@@ -19,15 +19,15 @@ public class Substitution {
 		char[] clearText = decrypt(getCiphertext(), guess);
 //		TODO: Remove next line
 		nGramSize = 3;
-		ArrayList<NGram> nGramCounts = findNGrams(nGramSize, clearText);
-		double fit = score(nGramCounts);
+		double[] nGramFreq = findNGramsFreq(nGramSize, clearText);
+		double fit = score(nGramFreq);
 		int counter = 0;
 		while (counter<1000) {
 			char[] nextGuess = changeGuess(guess);
 			clearText = decrypt(getCiphertext(), nextGuess);
-			nGramCounts = findNGrams(nGramSize, clearText);
-			double nextFit = score(nGramCounts);
-			if(nextFit>fit) {
+			nGramFreq = findNGramsFreq(nGramSize, clearText);
+			double nextFit = score(nGramFreq);
+			if(nextFit<fit) {
 				guess = nextGuess;
 				fit = nextFit;
 				counter = 0;
@@ -62,9 +62,14 @@ public class Substitution {
 		return g;
 	}
 
-	private double score(ArrayList<NGram> nGramCounts) {		// not sure about this
-		// TODO Auto-generated method stub
-		return 0;
+	private double score(double[] nGramFreq) {		// not sure about this
+		
+		int sqSum = 0;
+		for (int i=0; i<nGramFreq.length; i++){
+			sqSum += Math.pow(nGramFreq[i]-this.getStandardText()[i], 2);
+		}
+		
+		return Math.sqrt(sqSum);
 	}
 
 	private char[] randomGuess(int size) {
@@ -102,29 +107,31 @@ public class Substitution {
 		return clear;
 	}
 	
-	private ArrayList<NGram> findNGrams(int n, char[] cleartext){
-		ArrayList<NGram> counts = new ArrayList<NGram>(0);
-		System.out.println("count size " + counts.size());
+	private double[] findNGramsFreq(int n, char[] cleartext){
+		double[] freq = new double[(int) Math.pow(this.getSpaceSize(),n)];
 		
-		for(int i = 0; i<cleartext.length-(n-1); i++){
-			String s = ""+(cleartext[i]);
-			for (int j=1; j<n; j++){
-				s = s+cleartext[i+j];
-			}
-			boolean foundMatch=false;
-			for (int k=0; k<counts.size(); k++){
-				if (s.equals(counts.get(k).getS())){
-					counts.get(k).setCount(counts.get(k).getCount()+1);
-					foundMatch=true;
-					break;
-				}
-			}
-			if (!foundMatch){
-				counts.add(new NGram(s));
-			}
+		for (int i=0; i<freq.length; i++){
+			freq[i]=0;
 		}
-		counts.trimToSize();
-		return counts;
+		int total=0;
+		for(int i = 0; i<cleartext.length-(n-1); i++){
+			char first = (cleartext[i]);
+			char second = (cleartext[i+1]);
+			char third = (cleartext[i+2]);
+			if (n==2){
+				freq[first * (int)Math.pow(this.getSpaceSize(),n-1) + second] +=1;
+			}
+			else if (n == 3){
+				freq[first * (int)Math.pow(this.getSpaceSize(),n-1) + second*(int)Math.pow(this.getSpaceSize(),n-2) + third] +=1;
+			}
+			
+			total++;
+		}
+		for (int i=0; i<freq.length; i++){
+			freq[i]=freq[i] / total;
+		}		
+	
+		return freq;
 	}
 	
 //	private void makeIntText(){
@@ -159,11 +166,11 @@ public class Substitution {
 		this.spaceSize = spaceSize;
 	}
 
-	public int[] getStandardText() {
+	public double[] getStandardText() {
 		return standardText;
 	}
 
-	public void setStandardText(int[] standardText) {
+	public void setStandardText(double[] standardText) {
 		this.standardText = standardText;
 	}
 
