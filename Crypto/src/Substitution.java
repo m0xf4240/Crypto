@@ -3,23 +3,19 @@ import java.util.*;
 
 public class Substitution {
 	private char[] ciphertext;
-	private int[] inttext;
 	private int spaceSize;
 	private double[] standardText;
-	private int[] standardTextHighFreq;
 
-	public Substitution(char[] ciphertext, int size, double[] standardTextMono, double[] standardText){
+	public Substitution(char[] ciphertext, int size, double[] standardText){
 		this.setCiphertext(ciphertext);
-		//		this.makeIntText();
 		this.setSpaceSize(size);
 		this.setStandardText(standardText);
-		this.setStandardTextHighFreq(findLargestCounts(standardText, 10));
 	}
 
-	public void crack(int nGramSize) throws IOException{
-		double[] nGramFreq = findNGramsFreq(nGramSize, getCiphertext());
+	public void crack(int nGramSize, double[] englishMonos) throws IOException{
+		double[] nGramFreq = findNGramsFreq(1, getCiphertext());
 		char[] guess = randomGuess(getSpaceSize());
-		guess = smartGuess(guess, nGramFreq);
+		guess = smartGuess(guess, nGramFreq, englishMonos);
 		char[] clearText = decrypt(getCiphertext(), guess);
 		nGramFreq = findNGramsFreq(nGramSize, clearText);
 		double fit = score(nGramFreq);
@@ -79,53 +75,15 @@ public class Substitution {
 		return guess;
 	}
 
-	private char[] smartGuess(char[] guessSpace, double[] nGramCounts) {
-		
-//		double[] largest = new double[10];
-//		int[] largestIndecies = new int[largest.length];
-//
-//		for (int i=0; i<largest.length; i++){
-//			largest[i]=0;
-//			largestIndecies[i]=0;
-//		}
-//
-//		for (int i=0; i<nGramCounts.length; i++){
-//			for (int j=0; j<largest.length; j++){
-//				if (largest[j]>=nGramCounts[i]){
-//					break;
-//				}
-//				if (j!=0){
-//					largest[j-1]=largest[j];
-//					largestIndecies[j-1]=largestIndecies[j];
-//				}
-//				largest[j]=nGramCounts[i];
-//				largestIndecies[j]=i;
-//			}
-//		}	
-		
-		int[] largestIndecies = findLargestCounts(nGramCounts, 10);
-		
-		int[] highestEnglishFreq = this.getStandardTextHighFreq();
+	private char[] smartGuess(char[] guess, double[] monoGramFreq, double[] englishMonos) {
+		int[] cipherLargestFreqIndecies = findLargestFreqs(monoGramFreq, 10);
+		int[] largestEnglishFreq = findLargestFreqs(englishMonos, 10);
 
-		for (int i=largestIndecies.length-1; i>=0; i--){
-			char temp = guessSpace[largestIndecies[i]];
+		for (int i=cipherLargestFreqIndecies.length-1; i>=0; i--){
+			char temp = guess[largestEnglishFreq[i]];
+			guess[largestEnglishFreq[i]]=guess[cipherLargestFreqIndecies[i]];
+			guess[cipherLargestFreqIndecies[i]]=temp;
 		}
-		
-		int max =0;
-		int index =0;
-		for (int j=0; j<getCiphertext().length; j++) {
-			if (getCiphertext()[j] > max) {
-				index = j;
-			}
-		}
-		//		char temp = guess[index];
-		//		guess[index]=guess[(int)4];
-		//		guess[(int)' ']=temp;
-
-
-
-
-		System.out.println(guess);
 		return guess;
 	}
 
@@ -153,12 +111,17 @@ public class Substitution {
 		int total=0;
 		for(int i = 0; i<cleartext.length-(n-1); i++){
 			char first = (cleartext[i]);
-			char second = (cleartext[i+1]);
+			char second;
 			char third;
-			if (n==2){
+			if (n==1){
+				freq[first] +=1;
+			}
+			else if (n==2){
+				second = (cleartext[i+1]);
 				freq[first * (int)Math.pow(this.getSpaceSize(),n-1) + second] +=1;
 			}
 			else if (n==3){
+				second = (cleartext[i+1]);
 				third = (cleartext[i+2]);
 				freq[first * (int)Math.pow(this.getSpaceSize(),n-1) + second*(int)Math.pow(this.getSpaceSize(),n-2) + third] +=1;
 			}
@@ -172,7 +135,7 @@ public class Substitution {
 		return freq;
 	}
 	
-	private int[] findLargestCounts(double[] nGramCounts, int howMany){
+	private int[] findLargestFreqs(double[] nGramCounts, int howMany){
 		double[] largest = new double[howMany];
 		int[] largestIndecies = new int[largest.length];
 
@@ -198,28 +161,12 @@ public class Substitution {
 		return largestIndecies;
 	}
 
-	//	private void makeIntText(){
-	//		int[] i = new int[this.getSpaceSize()];
-	//		for (int j=0; j<this.getCiphertext().length; j++){
-	//			i[j]= (int)this.getCiphertext()[j];
-	//		}
-	//		setInttext(i);
-	//	}
-
 	public char[] getCiphertext() {
 		return ciphertext;
 	}
 
 	public void setCiphertext(char[] ciphertext) {
 		this.ciphertext = ciphertext;
-	}
-
-	public int[] getInttext() {
-		return inttext;
-	}
-
-	public void setInttext(int[] inttext) {
-		this.inttext = inttext;
 	}
 
 	public int getSpaceSize() {
@@ -237,22 +184,4 @@ public class Substitution {
 	public void setStandardText(double[] standardText) {
 		this.standardText = standardText;
 	}
-
-	public int[] getStandardTextHighFreq() {
-		return standardTextHighFreq;
-	}
-
-	public void setStandardTextHighFreq(int[] standardTextHighFreq) {
-		this.standardTextHighFreq = standardTextHighFreq;
-	}
-
-	public int[] frequency() {
-		int[] counts = new int[this.getSpaceSize()];
-		for (int i=0; i<this.getCiphertext().length; i++) {
-			int num = (int)(getCiphertext()[i]);
-			counts[num] += 1;
-		}
-		return counts;
-	}
-
 }
