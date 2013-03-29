@@ -24,7 +24,7 @@ public class Driver {
 		//c.bruteForce();
 		
 		Substitution s = new Substitution(ciphertext, size, goneWithThePeace.getFreq());
-		s.crack(3);
+		s.crack(2);
 	}
 	
 }
