@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -5,22 +6,28 @@ public class Substitution {
 	private char[] ciphertext;
 	private int spaceSize;
 	private double[] standardText;
+	double[] chs;
 
 	public Substitution(char[] ciphertext, int size, double[] standardText){
 		this.setCiphertext(ciphertext);
 		this.setSpaceSize(size);
 		this.setStandardText(standardText);
+		File file = new File("outch.txt");
+		LoadText outch = new LoadText(file, 1);
+		chs = outch.getFreq();
 	}
 
 	public void crack(int nGramSize, double[] englishMonos) throws IOException{
 		double[] nGramFreq = findNGramsFreq(1, getCiphertext());
 		char[] guess = randomGuess(getSpaceSize());
-		guess = smartGuess(guess, nGramFreq, englishMonos);
+		//guess = smartGuess(guess, nGramFreq, englishMonos);
 		char[] clearText = decrypt(getCiphertext(), guess);
 		nGramFreq = findNGramsFreq(nGramSize, clearText);
 		double fit = score(nGramFreq);
+		System.out.println("Fit:"+fit);
+		System.in.read();
 		int counter = 0;
-		while (counter<1000) {
+		while (counter<100000) {
 			char[] nextGuess = changeGuess(guess);
 			clearText = decrypt(getCiphertext(), nextGuess);
 			nGramFreq = findNGramsFreq(nGramSize, clearText);
@@ -50,11 +57,27 @@ public class Substitution {
 	}
 
 	private double score(double[] nGramFreq) {		// not sure about this
-		int sqSum = 0;
+		double sqSum = 0;
+
 		for (int i=0; i<nGramFreq.length; i++){
+//			boolean good = false;
+//			for(int j=0; j<chs.length; j++){
+//				if((double)i == chs[j]){
+//					good = true;
+//				}
+//			}
+//			if (!(good || i==(int)'&' || i==(int)'+' || i==(int)'\\' || i==(int)'^' || i==(int)'_' || i==(int)'`' 
+//					|| i==(int)'~' || i==(int)' ' || i==(int)',' || i==(int)'/' )){
+//				sqSum += 100;
+//			}
+			if (nGramFreq[i]>0 && this.getStandardText()[i]==0){
+				sqSum += 100;
+			}
+			
 			sqSum += Math.pow(nGramFreq[i]-this.getStandardText()[i], 2);
 		}
-		return Math.sqrt(sqSum);
+
+		return Math.sqrt(Math.sqrt(Math.sqrt(Math.sqrt(sqSum))));
 	}
 
 	private char[] randomGuess(int size) {
@@ -62,18 +85,20 @@ public class Substitution {
 		for (int i=0; i<size; i++){		// works
 			guess[i] = (char)((i)%size);
 		}
-		System.out.println(guess);
+		//System.out.println(guess);
 		List<Character> g = new ArrayList<Character>();
 		for(char ch : guess){
 			g.add(ch);
 		}
-		Collections.shuffle(g);
+		//Collections.shuffle(g);
 		int i=0;
 		for(Character ch : g) {			// appears to work
 			guess[i++] = ch;
 		}
 		return guess;
 	}
+	
+	
 
 	private char[] smartGuess(char[] guess, double[] monoGramFreq, double[] englishMonos) {
 		int[] cipherLargestFreqIndecies = findLargestFreqs(monoGramFreq, 10);
@@ -134,7 +159,7 @@ public class Substitution {
 
 		return freq;
 	}
-	
+
 	private int[] findLargestFreqs(double[] nGramCounts, int howMany){
 		double[] largest = new double[howMany];
 		int[] largestIndecies = new int[largest.length];
@@ -157,7 +182,7 @@ public class Substitution {
 				largestIndecies[j]=i;
 			}
 		}
-		
+
 		return largestIndecies;
 	}
 
