@@ -28,8 +28,9 @@ public class Driver {
 			return;
 		}
 		BookAnalyzer ba = new BookAnalyzer();
-		HashMap<Byte, Integer> englishLanguage = ba.analyze1(book);
-		HashMap<Byte, Integer> cipherText = ba.analyze1(message);
+		HashMap<Integer, Integer> englishMono = ba.analyze(book,1);
+		HashMap<Integer, Integer> englishQuad = ba.analyze(book,4);
+		HashMap<Integer, Integer> cipherText = ba.analyze(message,1);
 		HashMap<Integer, Integer> test = ba.analyze(new File("warandpeace.txt"), 4);
 //		HashMap<Short, Integer> englishBigrams = ba.analyzeBigrams(book);
 		LoadCipher lt = new LoadCipher();
@@ -41,8 +42,8 @@ public class Driver {
 		//Caesar c = new Caesar(ciphertext, size);
 		//c.bruteForce();
 		
-//		Substitution s = new Substitution(cipher, cipherText, englishLanguage);
-//		s.crack();
+		Substitution s = new Substitution(cipher, cipherText, englishMono, englishQuad);
+		s.crack();
 	}
 	
 }
