@@ -1,44 +1,46 @@
-import java.io.File;
-import java.io.IOException;
-
+import java.io.*;
+import java.util.*;
 
 public class Driver {
 
 	public static void main (String args[]) throws IOException{
 		if (args.length != 2) {
-			System.err.println("You broke it.");
+			System.err.println("Usage error. You should run java Driver <book.txt> <ciphertext.txt>");
 			System.exit(1);
 		}
+		File book = new File(args[0]);	
+		File message = new File(args[1]);
+		//Error checking
+		if (!book.exists()) {
+			System.out.println(args[0] + " does not exist.");
+			return;
+		}
+		if (!(book.isFile() && book.canRead())) {
+			System.out.println(book.getName() + " cannot be read from.");
+			return;
+		}
+		if (!message.exists()) {
+			System.out.println(args[1] + " does not exist.");
+			return;
+		}
+		if (!(message.isFile() && message.canRead())) {
+			System.out.println(message.getName() + " cannot be read from.");
+			return;
+		}
+		BookAnalyzer ba = new BookAnalyzer();
+		HashMap<Byte, Integer> englishLanguage = ba.analyze(book);
+		HashMap<Byte, Integer> cipherText = ba.analyze(message);
+		LoadCipher lt = new LoadCipher();
+		ArrayList<Byte> cipher = lt.load(message);
 		
-		String ciphertextPath = args[0];
-		String nAsString = args[1];
-		String monoTextPath = "new1.txt";
-		String baseLineTextPath = "new"+nAsString+".txt";
-		
-//		System.in.read();
-
-//		String ciphertextPath = args[0];
-//		String monoTextPath = args[1]; //new1.txt
-//		String baseLineTextPath = args[2]; //new2.txt or new3.txt
-//		String nAsString = args[3];
-		
-		int n = Integer.parseInt(nAsString);
-		
-		int size=255;
-		char[] ciphertext = Tools.readFile(ciphertextPath);
-		
-		File file = new File(monoTextPath);
-		LoadText goneWithThePeaceMono = new LoadText(file, 1);
-		file = new File(baseLineTextPath);
-		LoadText goneWithThePeace = new LoadText(file, (int)Math.pow(size, n));
-		
+		System.out.println();
 //		System.in.read();
 		
 		//Caesar c = new Caesar(ciphertext, size);
 		//c.bruteForce();
 		
-		Substitution s = new Substitution(ciphertext, size, goneWithThePeace.getFreq());
-		s.crack(n, goneWithThePeaceMono.getFreq());
+		Substitution s = new Substitution(cipher, cipherText, englishLanguage);
+		s.crack();
 	}
 	
 }
