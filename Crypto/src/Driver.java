@@ -28,19 +28,21 @@ public class Driver {
 			return;
 		}
 		BookAnalyzer ba = new BookAnalyzer();
-		HashMap<Byte, Integer> englishLanguage = ba.analyze(book);
-		HashMap<Byte, Integer> cipherText = ba.analyze(message);
+		HashMap<Byte, Integer> englishLanguage = ba.analyze1(book);
+		HashMap<Byte, Integer> cipherText = ba.analyze1(message);
+		HashMap<Integer, Integer> test = ba.analyze(new File("warandpeace.txt"), 4);
+//		HashMap<Short, Integer> englishBigrams = ba.analyzeBigrams(book);
 		LoadCipher lt = new LoadCipher();
 		ArrayList<Byte> cipher = lt.load(message);
 		
 		System.out.println();
 //		System.in.read();
-		
+
 		//Caesar c = new Caesar(ciphertext, size);
 		//c.bruteForce();
 		
-		Substitution s = new Substitution(cipher, cipherText, englishLanguage);
-		s.crack();
+//		Substitution s = new Substitution(cipher, cipherText, englishLanguage);
+//		s.crack();
 	}
 	
 }
