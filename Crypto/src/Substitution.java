@@ -41,6 +41,10 @@ public class Substitution {
 			}
 			
 			counter++;
+			if (counter>10000){
+				maybePrint(clearText, 0, fit);
+				counter=0;
+			}
 		}
 		for(int i=0; i<guess.length; i++){
 			System.out.print(guess[i]);
@@ -211,7 +215,7 @@ public class Substitution {
 			for (int i=0; i<text.length; i++){
 				System.out.print(text[i]);
 			}
-			System.out.println();
+			System.out.println("\nscore:"+bestFit);
 		}
 		else{
 			System.out.print('.');
