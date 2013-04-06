@@ -52,5 +52,21 @@ public final class ScoreText {
 		}
 		return quadFrequencies;
 	}
+	
+	public HashMap<Byte, Double> createIndexofC (HashMap<Byte, Integer> passedMap){
+		List<Integer> mapValues = new ArrayList<Integer>(passedMap.values());
+		Iterator<Integer> valueIt = mapValues.iterator();
+		double sum=0;
+		while (valueIt.hasNext()) {
+			sum += valueIt.next();
+		}
+		HashMap <Byte,Double> indexofC = new HashMap<Byte, Double>();
+		for (Byte k : passedMap.keySet()){
+			Double f = new Double(passedMap.get(k) / sum);
+			Double index = (f*(f-1)) / (sum*(sum - 1));
+			indexofC.put(k,new Double(passedMap.get(k) / sum));
+		}
+		return indexofC;
+	}
 
 }
