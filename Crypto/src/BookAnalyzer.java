@@ -181,6 +181,18 @@ public final class BookAnalyzer {
 		}
 		return count;
 	}
+public byte[] analyzeToBytes(File cipher) throws IOException{
+		
+		RandomAccessFile a=new RandomAccessFile(cipher,"r");
+		byte[]cbytes=new byte[(int)a.length()];
+		try{
+		a.read(cbytes);
+		a.close();}
+		catch(IOException e){
+			e.printStackTrace();
+		}
+		return cbytes;
+	}
 
 	private Integer wrapCurrent (Byte b1, Byte b2, Byte b3, Byte b4){
 		return ((0xFF & b1) << 24) | ((0xFF & b2) << 16) | ((0xFF & b3) << 8) | (0xFF & b4);

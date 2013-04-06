@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.*;
 
 public final class ScoreText {
-	
+	double sum;
 	public ScoreText(){
 		
 	}
@@ -52,20 +52,21 @@ public final class ScoreText {
 		return quadFrequencies;
 	}
 	
-	public HashMap<Byte, Double> createIndexofC (HashMap<Byte, Integer> passedMap){
+	public Double createIndexofC (HashMap<Byte, Integer> passedMap){
 		List<Integer> mapValues = new ArrayList<Integer>(passedMap.values());
 		Iterator<Integer> valueIt = mapValues.iterator();
-		double sum=0;
+		this.sum=0;
 		while (valueIt.hasNext()) {
-			sum += valueIt.next();
+			this.sum += valueIt.next();
 		}
 		HashMap <Byte,Double> indexofC = new HashMap<Byte, Double>();
+		Double index=0.0;
 		for (Byte k : passedMap.keySet()){
-			Double f = new Double(passedMap.get(k) / sum);
-			Double index = (f*(f-1)) / (sum*(sum - 1));
-			indexofC.put(k,new Double(passedMap.get(k) / sum));
+			Double f = new Double(passedMap.get(k) / this.sum);
+			 index = index+(f*(f-1)) / (this.sum*(this.sum - 1));
+			indexofC.put(k,new Double(passedMap.get(k) / this.sum));
 		}
-		return indexofC;
+		return index;
 	}
 
 }
