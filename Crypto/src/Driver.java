@@ -42,8 +42,10 @@ public class Driver {
 		//Caesar c = new Caesar(ciphertext, size);
 		//c.bruteForce();
 		
-		Substitution s = new Substitution(cipher, cipherText, englishMono, englishQuad);
-		s.crack();
+		//Substitution s = new Substitution(cipher, cipherText, englishMono, englishQuad);
+		//s.crack();
+		
+		
 	}
 	
 }
