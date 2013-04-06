@@ -40,7 +40,6 @@ public class Substitution {
 				return o2.compareTo(o1);
 			}
 		});
-		Collections.sort(mapKeys);
 
 		LinkedHashMap<Integer,Integer> sortedMap = new LinkedHashMap<Integer,Integer>();
 
@@ -77,6 +76,7 @@ public class Substitution {
 		Iterator<Integer> keyIt = mapKeys.iterator();
 		Iterator<Integer> valueIt = mapValues.iterator();
 		while (keyIt.hasNext()) {
+
 			Integer val = valueIt.next();
 			Integer key = keyIt.next();
 			keyHash.put((Integer)key, (Integer)val);
