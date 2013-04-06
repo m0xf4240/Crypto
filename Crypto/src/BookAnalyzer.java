@@ -7,7 +7,7 @@ public final class BookAnalyzer {
 	public BookAnalyzer(){
 	}
 
-	public HashMap<Byte,Integer> analyze1 (File file) throws IOException{
+	public HashMap<Byte,Integer> analyzeByte (File file) throws IOException{
 		HashMap<Byte,Integer> count = new HashMap<Byte, Integer>();
 		try {
 			RandomAccessFile raf = new RandomAccessFile(file, "r");
