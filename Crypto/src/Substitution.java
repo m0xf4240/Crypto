@@ -1,33 +1,84 @@
 import java.io.*;
+import java.nio.ByteBuffer;
 import java.util.*;
 
 public class Substitution {
-	private LinkedHashMap<Integer,Integer> cipherHash;
+	private LinkedHashMap<Integer,Integer> cipherMono;
+	private LinkedHashMap<Integer,Integer> cipherQuad;
+	private LinkedHashMap<Integer,Integer> englishMono;
+	private LinkedHashMap<Integer,Integer> englishQuad;
 	private ArrayList<Byte> cipherText; 
-	private LinkedHashMap<Integer,Integer> englishHash;
-	private LinkedHashMap<Integer,Integer> englishQuadHash;
-	private HashMap<Integer,Integer> key;
 	private ArrayList<Byte> plainText;
+	private HashMap<Integer,Integer> key;
 	private BookAnalyzer boa;
 	private ScoreText st;
 
-
-	public Substitution(ArrayList<Byte>cipher, HashMap<Integer,Integer> cipherHash, HashMap<Integer,Integer> englishHash, HashMap<Integer,Integer> englishQuadHash){
-		this.setCipherText(cipher);		
-		this.setCipherHash(sortHashMapByValuesD(cipherHash));
-		this.setEnglishHash(sortHashMapByValuesD(englishHash));
-		this.setEnglishQuadHash(sortHashMapByValuesD(englishQuadHash));
-		this.setBoa(new BookAnalyzer());
+	public Substitution(File book, File message) throws IOException{
+		BookAnalyzer ba = new BookAnalyzer();
+		this.setBoa(ba);
+		this.setCipherMono(sortHashMapByValuesD(ba.analyze(message,1)));
+		this.setCipherQuad(sortHashMapByValuesD(ba.analyze(message,4)));
+		
+		this.setEnglishMono(sortHashMapByValuesD(ba.analyze(book,1)));
+		this.setEnglishQuad(sortHashMapByValuesD(ba.analyze(book,4)));
+		
+		LoadCipher lt = new LoadCipher();		
+		this.setCipherText(lt.load(message));
+		
 		this.setST(new ScoreText());
 	}
 
 	public void crack() throws IOException{
-		HashMap<Integer, Integer> key = mergeHashMapsIntoKey(this.getCipherHash(), this.getEnglishHash());
-		List<Integer> decryptedText = decrypt(key);
-		HashMap<Integer,Integer> decryptedHash = this.getBoa().analyze(this.getCipherText(), 4);
-//		HashMap<Integer,Integer> decryptedHash = this.getBoa().analyze(decryptedText, 4);
-		double score = this.getST().scoreSub(decryptedHash, this.getEnglishQuadHash());
-		System.out.println("Score:" + score);
+		HashMap<Integer, Integer> key = mergeHashMapsIntoKey(this.getCipherMono(), this.getEnglishMono());
+//		HashMap<Integer, Integer> quadKey = mergeHashMapsIntoKey(this.getCipherQuad(), this.getEnglishQuad());
+		System.out.println(key.toString());
+		ArrayList<Byte> decryptedText = decrypt(key);
+//		HashMap<Integer,Integer> decryptedHash = this.getBoa().analyze(this.getCipherText(), 4);
+		HashMap<Integer,Integer> decryptedHash = this.getBoa().analyze(decryptedText, 4);
+		double score = this.getST().scoreSub(decryptedHash, this.getEnglishQuad());
+		
+		int counter=0;
+		while (true){
+			
+			HashMap<Integer, Integer> newKey = shuffleMap(key);
+//			System.out.println("c:"+newKey.toString());
+//			System.out.println("=========================");
+			ArrayList<Byte> newDecryptedText = decrypt(newKey);
+			ArrayList<Byte> backup = new ArrayList<Byte>(newDecryptedText.size());
+			for (int i=0; i< newDecryptedText.size(); i++){
+				backup.set(i, newDecryptedText.get(i));
+			}
+			System.out.println();
+			
+			HashMap<Integer,Integer> newDecryptedHash = this.getBoa().analyze(newDecryptedText, 4);
+			double newScore = this.getST().scoreSub(newDecryptedHash, this.getEnglishQuad());
+			if(newScore>score){	
+				for (int i=0; i< backup.size(); i++){
+					System.out.print((char)backup.get(i).intValue());
+				}
+				System.out.println("\nScore:" + score);
+				System.out.println("Improve?");
+				System.in.read();
+				
+				key=newKey;
+				score=newScore;
+			}
+			if (counter>1000){
+				System.out.println("1000 mark.");
+				for (int i=0; i< backup.size(); i++){
+					System.out.print((char)backup.get(i).intValue());
+				}
+				System.out.println("\nScore:" + score);
+				System.out.println("Improve?");
+				System.in.read();
+				counter=0;
+			}
+			counter++;
+			System.out.println("==================================================");
+		}
+
+		
+		
 		//TODO: re-count new cipher text
 		//TODO: keep guessing and modifying the key
 	}
@@ -72,13 +123,19 @@ public class Substitution {
 		HashMap<Integer,Integer> keyHash = new HashMap<Integer, Integer>();
 		List<Integer> mapKeys = new ArrayList<Integer>(passedMapA.keySet());
 		List<Integer> mapValues = new ArrayList<Integer>(passedMapB.keySet());
-
+//		System.out.println(mapKeys.toString());
+//		System.out.println(mapValues.toString());
 		Iterator<Integer> keyIt = mapKeys.iterator();
 		Iterator<Integer> valueIt = mapValues.iterator();
 		while (keyIt.hasNext()) {
-
-			Integer val = valueIt.next();
+//			System.out.print(keyIt.hasNext()+",");
+//			System.out.println(valueIt.hasNext());
 			Integer key = keyIt.next();
+//			System.out.print(key+",");
+			
+			Integer val = valueIt.next();
+//			System.out.println(val);
+			
 			keyHash.put((Integer)key, (Integer)val);
 			//			System.out.println(key+","+val);
 
@@ -87,30 +144,51 @@ public class Substitution {
 		return keyHash;
 	}
 
-	public static void shuffleMap(Map<Integer,Integer> map) {
-		List<Integer> valueList = new ArrayList<Integer>(map.values());
-		Collections.shuffle(valueList);
-		Iterator<Integer> valueIt = valueList.iterator();
-		for(Map.Entry<Integer,Integer> e : map.entrySet()) {
-			e.setValue(valueIt.next());
-		}
+	public HashMap<Integer, Integer> shuffleMap(HashMap<Integer,Integer> map) {
+		HashMap<Integer,Integer> newMap= new HashMap<Integer, Integer>(map);
+		
+		List<Integer> mapKeys = new ArrayList<Integer>(map.keySet());
+		int a = (int)(Math.random()*mapKeys.size());
+		int b = (int)(Math.random()*mapKeys.size());
+		
+		swap(new Integer(mapKeys.get(a)),new Integer(mapKeys.get(b)), newMap);
+		
+		return newMap; 
+	}
+	
+	private HashMap<Integer,Integer> swap(Integer a, Integer b, HashMap<Integer,Integer> map){
+		Integer temp = map.get(a);
+//		System.out.println("values:"+a+","+b);
+//		System.out.println("0:"+map.toString());
+		map.put(a, map.get(b));
+//		System.out.println("a:"+map.toString());
+		map.put(b,temp);
+//		System.out.println("b:"+map.toString());
+		return map;
 	}
 
-	private ArrayList<Integer> decrypt(HashMap<Integer,Integer> decryptionKey){
-		ArrayList<Integer> clearText = new ArrayList<Integer>(this.getCipherText().size());
+	private ArrayList<Byte> decrypt(HashMap<Integer,Integer> decryptionKey){
+		ArrayList<Byte> clearText = new ArrayList<Byte>(this.getCipherText().size());
 		for(int i=0; i<this.getCipherText().size(); i++){
-			clearText.add(i, decryptionKey.get(this.getCipherText().get(i)));
+			//Get the next element in the cipher text
+			Byte current = this.getCipherText().get(i);
+			//convert this Byte element into its Integer value: <0,0,0,current>
+			Integer decryptKey = ((0xFF & new Byte((byte)0)) << 24) | ((0xFF & new Byte((byte)0)) << 16) | ((0xFF & new Byte((byte)0)) << 8) | (0xFF & current);
+			//get the new value
+			Integer decryptValue = decryptionKey.get(decryptKey);
+			Byte guess;
+			if(decryptValue.equals(null)){
+				guess=(byte)-5;
+			} else{
+				//convert this Integer back into a Byte
+				guess = ByteBuffer.allocate(4).putInt(decryptValue).array()[3];
+			}
+			//add this Byte into the clear text
+			clearText.add(i, guess);
 //			System.out.print((char)(int)clearText.get(i));
 		}
+
 		return clearText;
-	}
-
-	public LinkedHashMap<Integer,Integer> getCipherHash() {
-		return cipherHash;
-	}
-
-	public void setCipherHash(LinkedHashMap<Integer,Integer> cipherHash) {
-		this.cipherHash = cipherHash;
 	}
 
 	public ArrayList<Byte> getCipherText() {
@@ -119,14 +197,6 @@ public class Substitution {
 
 	public void setCipherText(ArrayList<Byte> cipherText) {
 		this.cipherText = cipherText;
-	}
-
-	public LinkedHashMap<Integer,Integer> getEnglishHash() {
-		return englishHash;
-	}
-
-	public void setEnglishHash(LinkedHashMap<Integer,Integer> englishHash) {
-		this.englishHash = englishHash;
 	}
 
 	public HashMap<Integer, Integer> getKey() {
@@ -161,11 +231,35 @@ public class Substitution {
 		this.st = st;
 	}
 
-	public LinkedHashMap<Integer,Integer> getEnglishQuadHash() {
-		return englishQuadHash;
+	public LinkedHashMap<Integer, Integer> getCipherMono() {
+		return cipherMono;
 	}
 
-	public void setEnglishQuadHash(LinkedHashMap<Integer,Integer> englishQuadHash) {
-		this.englishQuadHash = englishQuadHash;
+	public void setCipherMono(LinkedHashMap<Integer, Integer> cipherMono) {
+		this.cipherMono = cipherMono;
+	}
+
+	public LinkedHashMap<Integer, Integer> getCipherQuad() {
+		return cipherQuad;
+	}
+
+	public void setCipherQuad(LinkedHashMap<Integer, Integer> cipherQuad) {
+		this.cipherQuad = cipherQuad;
+	}
+
+	public LinkedHashMap<Integer, Integer> getEnglishMono() {
+		return englishMono;
+	}
+
+	public void setEnglishMono(LinkedHashMap<Integer, Integer> englishMono) {
+		this.englishMono = englishMono;
+	}
+
+	public LinkedHashMap<Integer, Integer> getEnglishQuad() {
+		return englishQuad;
+	}
+
+	public void setEnglishQuad(LinkedHashMap<Integer, Integer> englishQuad) {
+		this.englishQuad = englishQuad;
 	}
 }

@@ -27,14 +27,16 @@ public class Driver {
 			System.out.println(message.getName() + " cannot be read from.");
 			return;
 		}
-		BookAnalyzer ba = new BookAnalyzer();
-		HashMap<Integer, Integer> englishMono = ba.analyze(book,1);
-		HashMap<Integer, Integer> englishQuad = ba.analyze(book,4);
-		HashMap<Integer, Integer> cipherText = ba.analyze(message,1);
-		HashMap<Integer, Integer> test = ba.analyze(new File("warandpeace.txt"), 4);
-//		HashMap<Short, Integer> englishBigrams = ba.analyzeBigrams(book);
-		LoadCipher lt = new LoadCipher();
-		ArrayList<Byte> cipher = lt.load(message);
+//		BookAnalyzer ba = new BookAnalyzer();
+//		HashMap<Byte, Integer> englishMono = ba.analyzeByte(book);
+//		HashMap<Integer, Integer> englishQuad = ba.analyze(book,4);
+//		
+//		HashMap<Integer, Integer> cipherText = ba.analyze(message,1);
+//		
+//		HashMap<Integer, Integer> test = ba.analyze(new File("warandpeace.txt"), 4);
+////		HashMap<Short, Integer> englishBigrams = ba.analyzeBigrams(book);
+//		LoadCipher lt = new LoadCipher();
+//		ArrayList<Byte> cipher = lt.load(message);
 		
 		System.out.println();
 //		System.in.read();
@@ -42,7 +44,7 @@ public class Driver {
 		//Caesar c = new Caesar(ciphertext, size);
 		//c.bruteForce();
 		
-		Substitution s = new Substitution(cipher, cipherText, englishMono, englishQuad);
+		Substitution s = new Substitution(book, message);
 		s.crack();
 	}
 	

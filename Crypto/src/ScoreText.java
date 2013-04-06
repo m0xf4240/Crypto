@@ -24,7 +24,6 @@ public final class ScoreText {
 			Iterator<Integer> englishIt = englishValues.iterator();
 //			System.out.println("TEST OUTER");
 			while(englishIt.hasNext()){
-				
 //				System.out.println("TEST INNER");
 				Integer englishKey = englishIt.next();
 //				System.out.println("english:"+englishKey);
