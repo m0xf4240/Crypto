@@ -53,11 +53,16 @@ public final class ScoreText {
 	}
 	
 	public Double createIndexofC (HashMap<Byte, Integer> passedMap){
-		List<Integer> mapValues = new ArrayList<Integer>(passedMap.values());
-		Iterator<Integer> valueIt = mapValues.iterator();
-		this.sum=0;
-		while (valueIt.hasNext()) {
-			this.sum += valueIt.next();
+//		List<Integer> mapValues = new ArrayList<Integer>(passedMap.values());
+//		Iterator<Integer> valueIt = mapValues.iterator();
+//		this.sum=0;
+//		while (valueIt.hasNext()) {
+//			this.sum += valueIt.next();
+//		}
+		//this.sum=passedMap.size();
+		
+		for (Integer value : passedMap.values()) {
+		  this.sum= this.sum + value; // Can also be done by total += value;
 		}
 		HashMap <Byte,Double> indexofC = new HashMap<Byte, Double>();
 		Double index=0.0;

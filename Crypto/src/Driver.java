@@ -27,6 +27,19 @@ public class Driver {
 			System.out.println(message.getName() + " cannot be read from.");
 			return;
 		}
+		Vigenere v=new Vigenere(message);
+		System.out.println("Vig made");
+		Caesar c=new Caesar(v.results,book);
+		System.out.println("Cae made");
+		LinkedList<Byte[]> thign=v.flip(c.getVig());
+		
+		for(int i=0;i<thign.size();i++){
+			System.out.print(thign.get(i).toString());
+				}
+		
+		
+		
+		
 //		BookAnalyzer ba = new BookAnalyzer();
 //		HashMap<Byte, Integer> englishMono = ba.analyzeByte(book);
 //		HashMap<Integer, Integer> englishQuad = ba.analyze(book,4);
