@@ -44,37 +44,37 @@ public class Substitution {
 //			System.out.println("c:"+newKey.toString());
 //			System.out.println("=========================");
 			ArrayList<Byte> newDecryptedText = decrypt(newKey);
-			ArrayList<Byte> backup = new ArrayList<Byte>(newDecryptedText.size());
+			ArrayList<Byte> backup = new ArrayList<Byte>(0);
 			for (int i=0; i< newDecryptedText.size(); i++){
-				backup.set(i, newDecryptedText.get(i));
+				backup.add(i, newDecryptedText.get(i));
 			}
-			System.out.println();
+//			System.out.println();
 			
 			HashMap<Integer,Integer> newDecryptedHash = this.getBoa().analyze(newDecryptedText, 4);
 			double newScore = this.getST().scoreSub(newDecryptedHash, this.getEnglishQuad());
 			if(newScore>score){	
-				for (int i=0; i< backup.size(); i++){
-					System.out.print((char)backup.get(i).intValue());
-				}
-				System.out.println("\nScore:" + score);
-				System.out.println("Improve?");
-				System.in.read();
+//				for (int i=0; i< backup.size(); i++){
+//					System.out.print((char)backup.get(i).intValue());
+//				}
+//				System.out.println("\nScore:" + score);
+//				System.out.println("Improve?");
+//				System.in.read();
 				
 				key=newKey;
 				score=newScore;
 			}
-			if (counter>1000){
-				System.out.println("1000 mark.");
+			if (counter>100){
+//				System.out.println("1000 mark.");
 				for (int i=0; i< backup.size(); i++){
 					System.out.print((char)backup.get(i).intValue());
 				}
 				System.out.println("\nScore:" + score);
-				System.out.println("Improve?");
-				System.in.read();
+//				System.out.println("Improve?");
+//				System.in.read();
 				counter=0;
 			}
 			counter++;
-			System.out.println("==================================================");
+//			System.out.println("==================================================");
 		}
 
 		
