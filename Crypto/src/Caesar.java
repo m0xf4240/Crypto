@@ -87,8 +87,8 @@ public class Caesar {
 					bestIndex=i;
 				}
 			}
-			
-			Byte[] check = shiftBy(b,bestIndex);
+
+			Byte[] check = shiftBy(b,bestIndex+1); //+1
 			v.remove(k);
 			v.add(k,check);
 			System.in.read();
@@ -110,25 +110,43 @@ public class Caesar {
 
 	}
 	public Byte[] shiftBytes(Byte []b){
-		System.out.println("Shifting Bytes by one");
-		Byte[] n=new Byte[b.length];
-		for(int i=1;i<n.length-1;i++){
-			n[i-1]=b[i];
+		System.out.println("Incrementing Bytes by one");
+		System.out.println("Before: " + b[0] + b[1]);
+		for(int i=1;i<b.length-1;i++){
+			byte temp = b[i].byteValue();
+			temp++;
+			b[i] = Byte.valueOf(temp);
 		}
-		n[n.length-1]=b[0];
-		return n;
+		System.out.println("After: " + b[0] + b[1]);
+
+		//		Byte[] n=new Byte[b.length];
+		//		for(int i=1;i<n.length-1;i++){
+		//			n[i-1]=b[i];
+		//		}
+		//		n[n.length-1]=b[0];
+		return b;
 	}
 	public Byte[] shiftBy(Byte []b, int shift){
-		System.out.println("Shifting bytes by integer");
-		Byte[] n=new Byte[b.length];
-		for(int i=shift;i<n.length;i++){
-			n[i-shift]=b[i];
+		System.out.println("Incrementing Bytes by integer");
+		System.out.println("Beforek: " + b[0] + b[1]);
+		for(int i=1;i<b.length-1;i++){
+			for (int j=0; j<shift; j++) {
+				byte temp = b[i].byteValue();
+				temp++;
+				b[i] = Byte.valueOf(temp);
+			}
 		}
-		for(int i=0;i<shift;i++){
-			n[n.length-shift+i]=b[i];
-		}
-		System.out.println("Returning Shifted Bytes");
-		return n;
+		System.out.println("Afterk: " + b[0] + b[1]);
+
+		//		Byte[] n=new Byte[b.length];
+		//		for(int i=shift;i<n.length;i++){
+		//			n[i-shift]=b[i];
+		//		}
+		//		for(int i=0;i<shift;i++){
+		//			n[n.length-shift+i]=b[i];
+		//		}
+		System.out.println("Returning Incremented Bytes");
+		return b;
 	}
 
 	public double calcChi(Byte[] b){
