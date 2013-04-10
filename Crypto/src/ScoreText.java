@@ -67,7 +67,7 @@ public final class ScoreText {
 		HashMap <Byte,Double> indexofC = new HashMap<Byte, Double>();	// not needed, just old code and we're tired
 		Double index=0.0;
 		for (Byte k : passedMap.keySet()){
-			Double f = new Double(passedMap.get(k) / this.sum);
+			Double f = new Double(passedMap.get(k)); // / this.sum);
 			 index = index+(f*(f-1));
 			indexofC.put(k,new Double(passedMap.get(k) / this.sum));
 		}

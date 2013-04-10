@@ -15,6 +15,11 @@ public class Vigenere {
 	 public Vigenere(File cipher) throws IOException{
 		 BookAnalyzer ba = new BookAnalyzer();
 		 byte[]cbytes=ba.analyzeToBytes(cipher);
+		 
+		 for (int i=0; i<6; i++) {
+			 System.out.println(cbytes[i] + ".");
+		 }
+		 
 		 ScoreText st=new ScoreText();		 
 		 double cioc=st.createIndexofC(ba.analyzeByte(cipher));
 		 this.sum=st.sum;
@@ -44,9 +49,9 @@ public class Vigenere {
 		 //so LinkedList.remove(0)[0] would be element [0][0] in the original ciphertext matrix
 		 //returns linked list indexed by column number
 		 byte[][]matrix=new byte[k][cb.length/k];
-		 for(int i=0;i<k;i++){
-			 for(int j=0;j<cb.length;j++){
-				 matrix[i][j]=cb[j];
+		 for(int i=0;i<(cb.length/k);i++){
+			 for(int j=0;j<k;j++){ // /k
+				 matrix[j][i]=cb[j+(i*2)];
 			 }
 		 }
 
