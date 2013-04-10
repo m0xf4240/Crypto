@@ -112,9 +112,17 @@ public class Caesar {
 	public Byte[] shiftBytes(Byte []b){
 		System.out.println("Incrementing Bytes by one");
 		System.out.println("Before: " + b[0] + b[1]);
-		for(int i=1;i<b.length-1;i++){
-			byte temp = b[i].byteValue();
-			temp++;
+		for(int i=0;i<b.length;i++){
+//			String th=String.valueOf(b[i]);
+//			Integer thi=Integer.getInteger(th);
+//			thi=thi+1;
+			
+			//byte temp =thi.byteValue(); //i].byteValue();
+			//System.out.println("temp is: "+ temp);
+			byte temp=b[i].byteValue();
+			int t=(int)temp;
+			t=t+1;
+			temp=(byte)t;
 			b[i] = Byte.valueOf(temp);
 		}
 		System.out.println("After: " + b[0] + b[1]);
@@ -129,7 +137,7 @@ public class Caesar {
 	public Byte[] shiftBy(Byte []b, int shift){
 		System.out.println("Incrementing Bytes by integer");
 		System.out.println("Beforek: " + b[0] + b[1]);
-		for(int i=1;i<b.length-1;i++){
+		for(int i=0;i<b.length;i++){
 			for (int j=0; j<shift; j++) {
 				byte temp = b[i].byteValue();
 				temp++;
