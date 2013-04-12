@@ -32,11 +32,11 @@ public class Driver {
 		System.out.println("Vig made");
 		Caesar c=new Caesar(v.results,book);
 		System.out.println("Cae made");
-		LinkedList<Byte[]> thign=v.flip(c.getVig());
+		Byte[] thign=v.flip(c.getVig());
 	
 
-		for(int i=0;i<thign.size();i++){
-			System.out.print(thign.get(i).toString());
+		for(int i=0;i<thign.length;i++){
+			System.out.print(thign[i].toString());
 		}
 
 

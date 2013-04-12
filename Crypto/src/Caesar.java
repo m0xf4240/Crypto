@@ -48,14 +48,6 @@ public class Caesar {
 	public void decrypt() throws IOException{
 		System.out.println("In decrypt");
 		LinkedList<Byte[]> v=this.getVig();
-		//		System.out.println("vig:");
-		//		for(int i=0;i<this.getVig().get(1).length;i++){
-		//			//System.out.println(this.getVig().getFirst()[i]);
-		//			System.out.println(this.getVig().get(1)[i]);
-		//		}
-		//double[] shiftChis= new double[v.size()];
-		//ListIterator<Byte[]> ls=v.listIterator();
-		//for(Byte[] b:v){	
 		Byte[]b=new Byte[v.getFirst().length];
 		//System.out.println("v.size: " + v.size());
 
@@ -76,30 +68,36 @@ public class Caesar {
 			for(int i=0;i<b.length;i++){
 				thisone[i]=b[i];
 			}
+			
+			
 			for(int i=1;i<b.length;i++){
 				thisone=shiftBytes(thisone);
 				sure[i]=calcChi(thisone);
+//				if (i%100==0){
+//					System.out.println(i);
+//				}
 			}
+			System.out.println("Out");
+			//System.in.read();
 			int bestIndex=0;
-			System.out.println(k);
 			//System.out.println("Comparing Chis in Decrypt");
 			for(int i=1;i<sure.length;i++ ){
 				if(!compareChis(sure[bestIndex],sure[i])){
 					bestIndex=i;
 				}
 			}
-
+			
 			Byte[] check = shiftBy(b,bestIndex+1); //+1
 			v.remove(k);
 			v.add(k,check);
+			//System.in.read();
 		}
-		//System.in.read();
-		//		System.out.println("Setting vig");
+		System.out.println("Setting vig");
 		this.setVig(v);
 
 	}
 	public boolean compareChis(double o, double s){
-		System.out.print("*");
+		//System.out.print("*");
 		if(o<s){
 			return true;
 			//when o is better
@@ -110,7 +108,7 @@ public class Caesar {
 
 	}
 	public Byte[] shiftBytes(Byte []b){
-		System.out.println("Incrementing Bytes by one");
+		//System.out.println("Incrementing Bytes by one");
 		//System.out.println("Before: " + b[0] + b[1]);
 		for(int i=0;i<b.length;i++){
 			//			String th=String.valueOf(b[i]);
@@ -184,7 +182,7 @@ public class Caesar {
 			else
 				temp=temp+1005.99;
 		}
-		System.out.println("returnign calcChi");
+		//System.out.println("returnign calcChi");
 		return temp;
 	}
 	//	private char[] decrypt(int key){
