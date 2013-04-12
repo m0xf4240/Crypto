@@ -48,29 +48,29 @@ public class Caesar {
 	public void decrypt() throws IOException{
 		System.out.println("In decrypt");
 		LinkedList<Byte[]> v=this.getVig();
-		System.out.println("vig:");
-		for(int i=0;i<this.getVig().get(1).length;i++){
-			//System.out.println(this.getVig().getFirst()[i]);
-			System.out.println(this.getVig().get(1)[i]);
-		}
+//		System.out.println("vig:");
+//		for(int i=0;i<this.getVig().get(1).length;i++){
+//			//System.out.println(this.getVig().getFirst()[i]);
+//			System.out.println(this.getVig().get(1)[i]);
+//		}
 		//double[] shiftChis= new double[v.size()];
 		//ListIterator<Byte[]> ls=v.listIterator();
 		//for(Byte[] b:v){	
 		Byte[]b=new Byte[v.getFirst().length];
-		System.out.println("v.size: " + v.size());
+		//System.out.println("v.size: " + v.size());
 
 		for(int k=0;k<v.size();k++){
 			b=v.get(k);
-			System.out.println(v.get(1)[1]);
-			System.out.println("v.getk: " +v.get(k)[1] + " " + k);
-			System.out.println("b:");
+//			System.out.println(v.get(1)[1]);
+//			System.out.println("v.getk: " +v.get(k)[1] + " " + k);
+//			System.out.println("b:");
 			for(int i=0;i<b.length;i++){
 				System.out.println(b[i]);
 			}
 			double o=calcChi(b);
 			double [] sure=new double[b.length];
 			sure[0]=o;
-			System.out.println("Sure.length is: "+ sure.length);
+			//System.out.println("Sure.length is: "+ sure.length);
 			Byte[] thisone=new Byte[b.length];
 
 			for(int i=0;i<b.length;i++){
@@ -91,9 +91,7 @@ public class Caesar {
 			Byte[] check = shiftBy(b,bestIndex+1); //+1
 			v.remove(k);
 			v.add(k,check);
-//			System.in.read();
-
-		}
+			//System.in.read();
 		System.out.println("Setting vig");
 		this.setVig(v);
 
@@ -111,7 +109,7 @@ public class Caesar {
 	}
 	public Byte[] shiftBytes(Byte []b){
 		System.out.println("Incrementing Bytes by one");
-		System.out.println("Before: " + b[0] + b[1]);
+		//System.out.println("Before: " + b[0] + b[1]);
 		for(int i=0;i<b.length;i++){
 //			String th=String.valueOf(b[i]);
 //			Integer thi=Integer.getInteger(th);
@@ -125,7 +123,7 @@ public class Caesar {
 			temp=(byte)t;
 			b[i] = Byte.valueOf(temp);
 		}
-		System.out.println("After: " + b[0] + b[1]);
+		//System.out.println("After: " + b[0] + b[1]);
 
 		//		Byte[] n=new Byte[b.length];
 		//		for(int i=1;i<n.length-1;i++){
@@ -135,8 +133,8 @@ public class Caesar {
 		return b;
 	}
 	public Byte[] shiftBy(Byte []b, int shift){
-		System.out.println("Incrementing Bytes by integer");
-		System.out.println("Beforek: " + b[0] + b[1]);
+//		System.out.println("Incrementing Bytes by integer");
+//		System.out.println("Beforek: " + b[0] + b[1]);
 		for(int i=0;i<b.length;i++){
 			for (int j=0; j<shift; j++) {
 				byte temp = b[i].byteValue();
@@ -144,7 +142,7 @@ public class Caesar {
 				b[i] = Byte.valueOf(temp);
 			}
 		}
-		System.out.println("Afterk: " + b[0] + b[1]);
+	//	System.out.println("Afterk: " + b[0] + b[1]);
 
 		//		Byte[] n=new Byte[b.length];
 		//		for(int i=shift;i<n.length;i++){
@@ -153,7 +151,7 @@ public class Caesar {
 		//		for(int i=0;i<shift;i++){
 		//			n[n.length-shift+i]=b[i];
 		//		}
-		System.out.println("Returning Incremented Bytes");
+		//System.out.println("Returning Incremented Bytes");
 		return b;
 	}
 
@@ -171,7 +169,7 @@ public class Caesar {
 		for (Map.Entry<Byte,Double> entry : cFreq.entrySet()) {
 			cFreq.put(entry.getKey(), entry.setValue(entry.getValue()/cFreq.size()));		 
 		}
-		System.out.println("Done Calculatuing frequncies in calcChi");
+		//System.out.println("Done Calculatuing frequncies in calcChi");
 		double temp=0.0;
 		for (Map.Entry<Byte,Double> entry : cFreq.entrySet()) {
 			if(this.english.get(entry.getKey())!=null){
@@ -194,22 +192,7 @@ public class Caesar {
 	//		}
 	//		return cleartext;
 	//	}
-	public ArrayList<CharBuffer> toChars(){
-		//making byte columns into character columns
-		byte[] temp=new byte[this.spaceSize];
-		ArrayList<CharBuffer> columns= new ArrayList<CharBuffer>();
-
-		for(int j=0;j<this.getVig().size();j++){
-			for(int i=0;i<this.spaceSize;i++){
-				temp[i]=this.getVig().get(j)[i].byteValue();
-			}
-			CharBuffer cBuffer = ByteBuffer.wrap(temp).asCharBuffer();
-			columns.add(cBuffer);
-		}
-		//now every column of bytes from the cipher text is a CharBuffer in columns
-		return columns;	
-	}
-
+	
 	public char[] getCiphertext() {
 		return ciphertext;
 	}
