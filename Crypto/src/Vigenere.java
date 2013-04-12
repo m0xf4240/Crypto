@@ -14,11 +14,23 @@ public class Vigenere {
 	 double sum;
 	 public Vigenere(File cipher) throws IOException{
 		 BookAnalyzer ba = new BookAnalyzer();
+		 
 		 Byte[]cbytes=ba.analyzeToBytes(cipher);
-
-		 for (int i=0; i<6; i++) {
-			 System.out.println(cbytes[i] + ".");
+		 Byte[]cb = new Byte[3];
+		 
+		 
+		 for(int i=0 ; i<cbytes.length; i++){
+//			 System.out.println(cbytes[i].intValue());
+//			 System.out.println((char)cbytes[i].intValue());
+			 cb[i/4] = cbytes[i];
 		 }
+		 
+		 cbytes = new Byte[3];
+		 cbytes = cb;
+
+//		 for (int i=0; i<6; i++) {
+//			 System.out.println(cbytes[i] + ".");
+//		 }
 
 		 ScoreText st=new ScoreText();		 
 		 double cioc=st.createIndexofC(ba.analyzeByte(cipher));
@@ -36,7 +48,9 @@ public class Vigenere {
 		 //System.out.println("sum is "+this.sum+" and e is "+e +" and c is "+c);
 		 double thing= ((c-(1/255))*this.sum)/(((this.sum-1)*c)-((this.sum*(1/255))+e));
 		 int kl=(int) Math.ceil(thing);
-		 return kl;
+		 //return kl;
+		 //TODO:Temporary debugging fix
+		 return 2;
 	 }
 	 public LinkedList<Byte[]> makeCol(Byte[] cb, int k){
 		 //System.out.println("In makecol");

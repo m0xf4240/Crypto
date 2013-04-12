@@ -127,7 +127,7 @@ public final class BookAnalyzer {
 				Byte third = b[2];
 				Byte fourth= b[3]; //right-most
 				if(n != null) {
-//					System.out.println(i+", "+(char)first.byteValue()+""+(char)second.byteValue()+""+(char)third.byteValue()+""+(char)fourth.byteValue()+", "+n);
+					//					System.out.println(i+", "+(char)first.byteValue()+""+(char)second.byteValue()+""+(char)third.byteValue()+""+(char)fourth.byteValue()+", "+n);
 				}
 			}
 			System.out.println("Done reading "+file.getName()+".");
@@ -158,7 +158,7 @@ public final class BookAnalyzer {
 		break;
 		}
 		while (text.size()>=1) {
-			
+
 			if (count.isEmpty()){
 				count.put(current, 1);
 			} else if (! count.containsKey(current)){
@@ -181,14 +181,14 @@ public final class BookAnalyzer {
 		}
 		return count;
 	}
-public Byte[] analyzeToBytes(File cipher) throws IOException{
-		
+	public Byte[] analyzeToBytes(File cipher) throws IOException{
+
 		RandomAccessFile a=new RandomAccessFile(cipher,"r");
 		byte[]cbytes=new byte[(int)a.length()];
 		try{
-		a.read(cbytes);
-		a.close();}
-		
+			a.read(cbytes);
+			a.close();}
+
 		catch(IOException e){
 			e.printStackTrace();
 		}
