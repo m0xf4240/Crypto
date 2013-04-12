@@ -15,11 +15,11 @@ public class Vigenere {
 	 public Vigenere(File cipher) throws IOException{
 		 BookAnalyzer ba = new BookAnalyzer();
 		 Byte[]cbytes=ba.analyzeToBytes(cipher);
-		 
+
 		 for (int i=0; i<6; i++) {
 			 System.out.println(cbytes[i] + ".");
 		 }
-		 
+
 		 ScoreText st=new ScoreText();		 
 		 double cioc=st.createIndexofC(ba.analyzeByte(cipher));
 		 this.sum=st.sum;
@@ -30,7 +30,7 @@ public class Vigenere {
 	 }
 
 
-	
+
 	 public int keywordLength(double e, double c){
 		 //System.out.println("finding Keylength");
 		 //System.out.println("sum is "+this.sum+" and e is "+e +" and c is "+c);
@@ -39,7 +39,7 @@ public class Vigenere {
 		 return kl;
 	 }
 	 public LinkedList<Byte[]> makeCol(Byte[] cb, int k){
-		//System.out.println("In makecol");
+		 //System.out.println("In makecol");
 		 //takes in the an array of bytes from the ciphertext and the keylength
 		 //returns an Linkedlist of Byte[] of each column where 
 		 //the index relating to the Byte[] is the col index in a full matrix of byte values
@@ -55,16 +55,16 @@ public class Vigenere {
 			 sec[index]=cb[i+1];
 			 index++;
 			 i++;
-			 
-//			 for(int j=0;j<k;j++){ // /k
-//				 matrix[j][i]=cb[j+(i*2)];
-//			 }
+
+			 //			 for(int j=0;j<k;j++){ // /k
+			 //				 matrix[j][i]=cb[j+(i*2)];
+			 //			 }
 		 }
 
 		 LinkedList<Byte[]> columns=new LinkedList<Byte[]>();
 		 columns.add(first);
 		 columns.add(sec);
-		 
+
 		 return columns;
 	 }
 	 public Byte[] flip(LinkedList<Byte[]> boom){		 
@@ -75,10 +75,12 @@ public class Vigenere {
 			 for(int j=1;j<=leng;j++){
 				 plaintext[leng*j+i]=boom.get(i)[j-1].byteValue();
 			 }
+			 
+			 
+		 }
 		 System.out.println("Leaving flip");
-
 		 return plaintext;
-	 }
 
+	 }
 }
 
