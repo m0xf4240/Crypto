@@ -12,28 +12,52 @@ public class Vigenere {
 	 */final double eioc=0.066;
 	 LinkedList<Byte[]> results;
 	 double sum;
+	 
 	 public Vigenere(File cipher) throws IOException{
 		 BookAnalyzer ba = new BookAnalyzer();
+		 
+		 
 
 		 Byte[]cbytes=ba.analyzeToBytes(cipher);
-		 Byte[]cb = new Byte[cbytes.length];
+		 
+		
+		 
+//		 int debugLength = 50;
+//		 Byte[]cb = new Byte[cbytes.length];
 
 
-		 for(int i=0 ; i<cbytes.length; i++){
-			 System.out.println(cbytes[i].intValue());
-			 System.out.println((char)cbytes[i].intValue());
-			 cb[i] = cbytes[i];
-		 }
-
-		 cbytes = new Byte[cb.length];
-		 cbytes = cb;
+//		 for(int i=0 ; i<cbytes.length; i++){
+//			 System.out.println(cbytes[i].intValue());
+//			 System.out.println((char)cbytes[i].intValue());
+//			 cb[i] = cbytes[i];
+//		 }
+		 
+//		 cbytes = new Byte[cb.length];
+//		 cbytes = cb;
 
 		 //		 for (int i=0; i<6; i++) {
 		 //			 System.out.println(cbytes[i] + ".");
 		 //		 }
-
+		 
+		 
+		 double cioc=0; 
 		 ScoreText st=new ScoreText();		 
-		 double cioc=st.createIndexofC(ba.analyzeByte(cipher));
+		 for (int i=1; i<=4; i++){
+			 int[] counts = new int[255]; 
+			 for (int k=0; k<i; k++){
+				 for (int j=k; j<cbytes.length; j+=i){
+					 counts[cbytes[j]]++;
+				 }
+			 }
+			 cioc=st.createIndexofC(counts);
+			 System.out.println("Index of Coincidence is "+cioc);
+		 }
+		 
+		
+		 
+		 System.out.println("Hit Enter to Continue.");
+		 System.in.read();
+		 
 		 this.sum=st.sum;
 		 int keylength=this.keywordLength(eioc, cioc);
 		 System.out.println("keylength is "+keylength);

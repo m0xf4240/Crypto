@@ -181,22 +181,26 @@ public final class BookAnalyzer {
 		}
 		return count;
 	}
-	public Byte[] analyzeToBytes(File cipher) throws IOException{
-
-		RandomAccessFile a=new RandomAccessFile(cipher,"r");
-		byte[]cbytes=new byte[(int)a.length()];
-		try{
-			a.read(cbytes);
-			a.close();}
-
+	public Byte[] analyzeToBytes(File file) throws IOException{
+		
+		RandomAccessFile raf = new RandomAccessFile(file, "r");
+		Byte[]cbytes=new Byte[(int)raf.length()];
+		//try to read each byte in the file into a Byte[]. Catch the EOF exception to close raf.
+		try {
+			int index=0;
+			while (true) {
+				cbytes[index++] = new Byte(raf.readByte());
+			}
+		} catch (EOFException f){ 
+			raf.close();
+			for (int i=0; i<cbytes.length; i++){
+				System.out.print((char)cbytes[i].intValue());
+			}
+		}
 		catch(IOException e){
 			e.printStackTrace();
 		}
-		Byte[]c=new Byte[cbytes.length];
-		for(int i=0;i<cbytes.length;i++){
-			c[i]=Byte.valueOf(cbytes[i]);
-		}
-		return c;
+		return cbytes;
 	}
 
 	private Integer wrapCurrent (Byte b1, Byte b2, Byte b3, Byte b4){

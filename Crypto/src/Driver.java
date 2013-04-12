@@ -44,7 +44,6 @@ public class Driver {
 			
 			System.out.print((char)thign[i].intValue());
 		}
-//dkrutuitfjddjkdjhhdfjjj
 
 		//		BookAnalyzer ba = new BookAnalyzer();
 		//		HashMap<Byte, Integer> englishMono = ba.analyzeByte(book);
