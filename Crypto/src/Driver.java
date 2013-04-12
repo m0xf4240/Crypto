@@ -38,14 +38,14 @@ public class Driver {
 //		LoadCipher lt = new LoadCipher();
 //		ArrayList<Byte> cipher = lt.load(message);
 		
-		System.out.println();
+//		System.out.println();
 //		System.in.read();
 
 		//Caesar c = new Caesar(ciphertext, size);
 		//c.bruteForce();
 		
-		//Substitution s = new Substitution(cipher, cipherText, englishMono, englishQuad);
-		//s.crack();
+		Substitution s = new Substitution(book, message);
+		s.crack();
 	}
 	
 }
