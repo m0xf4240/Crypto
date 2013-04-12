@@ -14,23 +14,23 @@ public class Vigenere {
 	 double sum;
 	 public Vigenere(File cipher) throws IOException{
 		 BookAnalyzer ba = new BookAnalyzer();
-		 
+
 		 Byte[]cbytes=ba.analyzeToBytes(cipher);
-		 Byte[]cb = new Byte[3];
-		 
-		 
+		 Byte[]cb = new Byte[cbytes.length];
+
+
 		 for(int i=0 ; i<cbytes.length; i++){
-//			 System.out.println(cbytes[i].intValue());
-//			 System.out.println((char)cbytes[i].intValue());
-			 cb[i/4] = cbytes[i];
+			 System.out.println(cbytes[i].intValue());
+			 System.out.println((char)cbytes[i].intValue());
+			 cb[i] = cbytes[i];
 		 }
-		 
-		 cbytes = new Byte[3];
+
+		 cbytes = new Byte[cb.length];
 		 cbytes = cb;
 
-//		 for (int i=0; i<6; i++) {
-//			 System.out.println(cbytes[i] + ".");
-//		 }
+		 //		 for (int i=0; i<6; i++) {
+		 //			 System.out.println(cbytes[i] + ".");
+		 //		 }
 
 		 ScoreText st=new ScoreText();		 
 		 double cioc=st.createIndexofC(ba.analyzeByte(cipher));
@@ -83,14 +83,17 @@ public class Vigenere {
 	 }
 	 public Byte[] flip(LinkedList<Byte[]> boom){		 
 		 System.out.println("In flip");
+
 		 int leng=boom.get(0).length;
 		 Byte[] plaintext = new Byte[(leng*boom.size())];
-		 for (int i=0; i<boom.size(); i++){
-			 for(int j=1;j<=leng;j++){
-				 plaintext[leng*j+i]=boom.get(i)[j-1].byteValue();
+		 for(int j=0;j<leng;j++){
+			 for (int i=0; i<boom.size(); i++){
+
+				 plaintext[(j*2)+i]=boom.get(i)[j].byteValue();
+				
 			 }
-			 
-			 
+
+
 		 }
 		 System.out.println("Leaving flip");
 		 return plaintext;

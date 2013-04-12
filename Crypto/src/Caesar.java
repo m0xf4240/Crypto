@@ -20,7 +20,7 @@ public class Caesar {
 	public Caesar(LinkedList<Byte[]> vigenered, File gb) throws IOException{
 		this.setSpaceSize(vigenered.get(0).length);
 		this.setVig(vigenered);
-
+		System.out.println("Vig size passed:"+ this.getVig().getFirst().length);
 		this.setEnglish(makeEnglish(gb));
 		decrypt();
 		//at 1:24AM sum is 212677.0 and e is 0.066 and c is -2.1828126877357703E-11
