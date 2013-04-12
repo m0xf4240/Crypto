@@ -48,11 +48,11 @@ public class Caesar {
 	public void decrypt() throws IOException{
 		System.out.println("In decrypt");
 		LinkedList<Byte[]> v=this.getVig();
-//		System.out.println("vig:");
-//		for(int i=0;i<this.getVig().get(1).length;i++){
-//			//System.out.println(this.getVig().getFirst()[i]);
-//			System.out.println(this.getVig().get(1)[i]);
-//		}
+		//		System.out.println("vig:");
+		//		for(int i=0;i<this.getVig().get(1).length;i++){
+		//			//System.out.println(this.getVig().getFirst()[i]);
+		//			System.out.println(this.getVig().get(1)[i]);
+		//		}
 		//double[] shiftChis= new double[v.size()];
 		//ListIterator<Byte[]> ls=v.listIterator();
 		//for(Byte[] b:v){	
@@ -61,9 +61,9 @@ public class Caesar {
 
 		for(int k=0;k<v.size();k++){
 			b=v.get(k);
-//			System.out.println(v.get(1)[1]);
-//			System.out.println("v.getk: " +v.get(k)[1] + " " + k);
-//			System.out.println("b:");
+			//			System.out.println(v.get(1)[1]);
+			//			System.out.println("v.getk: " +v.get(k)[1] + " " + k);
+			//			System.out.println("b:");
 			for(int i=0;i<b.length;i++){
 				System.out.println(b[i]);
 			}
@@ -81,7 +81,8 @@ public class Caesar {
 				sure[i]=calcChi(thisone);
 			}
 			int bestIndex=0;
-			System.out.println("Comparing Chis in Decrypt");
+			System.out.println(k);
+			//System.out.println("Comparing Chis in Decrypt");
 			for(int i=1;i<sure.length;i++ ){
 				if(!compareChis(sure[bestIndex],sure[i])){
 					bestIndex=i;
@@ -91,8 +92,9 @@ public class Caesar {
 			Byte[] check = shiftBy(b,bestIndex+1); //+1
 			v.remove(k);
 			v.add(k,check);
-			//System.in.read();
-		System.out.println("Setting vig");
+		}
+		//System.in.read();
+		//		System.out.println("Setting vig");
 		this.setVig(v);
 
 	}
@@ -111,10 +113,10 @@ public class Caesar {
 		System.out.println("Incrementing Bytes by one");
 		//System.out.println("Before: " + b[0] + b[1]);
 		for(int i=0;i<b.length;i++){
-//			String th=String.valueOf(b[i]);
-//			Integer thi=Integer.getInteger(th);
-//			thi=thi+1;
-			
+			//			String th=String.valueOf(b[i]);
+			//			Integer thi=Integer.getInteger(th);
+			//			thi=thi+1;
+
 			//byte temp =thi.byteValue(); //i].byteValue();
 			//System.out.println("temp is: "+ temp);
 			byte temp=b[i].byteValue();
@@ -133,8 +135,8 @@ public class Caesar {
 		return b;
 	}
 	public Byte[] shiftBy(Byte []b, int shift){
-//		System.out.println("Incrementing Bytes by integer");
-//		System.out.println("Beforek: " + b[0] + b[1]);
+		//		System.out.println("Incrementing Bytes by integer");
+		//		System.out.println("Beforek: " + b[0] + b[1]);
 		for(int i=0;i<b.length;i++){
 			for (int j=0; j<shift; j++) {
 				byte temp = b[i].byteValue();
@@ -142,7 +144,7 @@ public class Caesar {
 				b[i] = Byte.valueOf(temp);
 			}
 		}
-	//	System.out.println("Afterk: " + b[0] + b[1]);
+		//	System.out.println("Afterk: " + b[0] + b[1]);
 
 		//		Byte[] n=new Byte[b.length];
 		//		for(int i=shift;i<n.length;i++){
@@ -192,7 +194,7 @@ public class Caesar {
 	//		}
 	//		return cleartext;
 	//	}
-	
+
 	public char[] getCiphertext() {
 		return ciphertext;
 	}
