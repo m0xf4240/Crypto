@@ -32,17 +32,19 @@ public class Driver {
 		System.out.println("Vig made");
 		Caesar c=new Caesar(v.results,book);
 		System.out.println("Cae made");
-		//Byte[] thign=v.flip(c.getVig());
+		Byte[] thign=v.flip(c.getVig());
 		System.out.println("in cols");
-		for(int i=0;i<c.getVig().size();i++){
-			for (int j=0;j<c.getVig().getFirst().length;j++){
-				System.out.println((char)c.getVig().get(i)[j].intValue());
-			}
-		}
-//		for(int i=0;i<thign.length;i++){
-//			System.out.print(thign[i].toString());
+//		for(int i=0;i<c.getVig().size();i++){
+//			for (int j=0;j<c.getVig().getFirst().length;j++){
+//				System.out.println((char)c.getVig().get(i)[j].intValue());
+//			}
 //		}
-
+		//wahbah[hetk
+		for(int i=0;i<thign.length;i++){
+			
+			System.out.print((char)thign[i].intValue());
+		}
+//dkrutuitfjddjkdjhhdfjjj
 
 		//		BookAnalyzer ba = new BookAnalyzer();
 		//		HashMap<Byte, Integer> englishMono = ba.analyzeByte(book);
