@@ -91,7 +91,7 @@ public class Caesar {
 			Byte[] check = shiftBy(b,bestIndex+1); //+1
 			v.remove(k);
 			v.add(k,check);
-			System.in.read();
+//			System.in.read();
 
 		}
 		System.out.println("Setting vig");
