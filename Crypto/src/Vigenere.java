@@ -46,6 +46,7 @@ public class Vigenere {
 		 //so LinkedList.remove(0)[0] would be element [0][0] in the original ciphertext matrix
 		 //returns linked list indexed by column number
 		 //byte[][]matrix=new byte[k][cb.length/k];
+		 //
 		 Byte[] first=new Byte[cb.length/2];
 		 Byte[] sec=new Byte[cb.length/2];
 		 int index=0;
@@ -66,19 +67,21 @@ public class Vigenere {
 		 
 		 return columns;
 	 }
-	 public LinkedList<Byte[]> flip(LinkedList<Byte[]> boom){
+	 public Byte[] flip(LinkedList<Byte[]> boom){		 
 		 System.out.println("In flip");
 		 int leng=boom.get(0).length;
-		 ByteBuffer bytes= ByteBuffer.allocate(leng*boom.size());
-		 for(int i=0;i<boom.size();i++){
-			 byte[] temp=new byte[leng];
-			 for(int j=0;j<leng;j++){
-				 temp[j]=boom.get(i)[j].byteValue();
+		 Byte[] plaintext = new Byte[(leng*boom.size())];
+		 for (int i=0; i<boom.size(); i++){
+			 for(int j=1;j<=leng;j++){
+				 plaintext[leng*j+i]=boom.get(i)[j-1].byteValue();
 			 }
-			 bytes.put(temp, i-1, leng);
+
 		 }
+
 		 System.out.println("Leaving flip");
-		 return makeCol(bytes.array(),leng);
+
+		 return plaintext;
+
 	 }
 
 }
