@@ -40,28 +40,37 @@ public class Vigenere {
 		 //		 }
 		 
 		 
-		 double cioc=0; 
+		
 		 ScoreText st=new ScoreText();		 
-		 for (int i=1; i<=4; i++){
-			 int[] counts = new int[255]; 
+		 for (int i=1; i<=5; i++){
+			 double [] cioc=new double[i]; 
+			 
 			 for (int k=0; k<i; k++){
+				 int[] counts = new int[256]; 
 				 for (int j=k; j<cbytes.length; j+=i){
-					 counts[cbytes[j]]++;
+					 counts[(int)cbytes[j]&0xff]++;
 				 }
+				 cioc[k]=st.createIndexofC(counts);
 			 }
-			 cioc=st.createIndexofC(counts);
-			 System.out.println("Index of Coincidence is "+cioc);
+			 double sum =0;
+			 for (int l=0; l<cioc.length; l++) {
+				 sum += cioc[l];
+			 }
+			 sum /= cioc.length;
+			 //cioc=st.createIndexofC(counts);
+			 System.out.println("Index of Coincidence is "+sum+ " and key is "+ i);
 		 }
 		 
 		
-		 
+		 byte[] keysize = new byte[1];
 		 System.out.println("Hit Enter to Continue.");
+		// System.out.println("Enter Keysize to continue");
 		 System.in.read();
 		 
 		 this.sum=st.sum;
-		 int keylength=this.keywordLength(eioc, cioc);
-		 System.out.println("keylength is "+keylength);
-		 LinkedList<Byte[]> columns=this.makeCol(cbytes, keylength);
+		// int keylength=this.keywordLength(eioc, cioc);
+		 System.out.println("keylength is "+(int)keysize[0]);
+		 LinkedList<Byte[]> columns=this.makeCol(cbytes,(int) keysize[0]);
 		 this.results=columns;
 	 }
 

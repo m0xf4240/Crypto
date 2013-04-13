@@ -194,7 +194,7 @@ public final class BookAnalyzer {
 		} catch (EOFException f){ 
 			raf.close();
 			for (int i=0; i<cbytes.length; i++){
-				System.out.print((char)cbytes[i].intValue());
+				//System.out.print((char)cbytes[i].intValue());
 			}
 		}
 		catch(IOException e){
