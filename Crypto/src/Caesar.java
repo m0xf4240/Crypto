@@ -1,21 +1,13 @@
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.ListIterator;
-import java.util.Map;
-
 
 public class Caesar {
 
 	private char[] ciphertext;
 	private int spaceSize;
 	private Byte[] vig;
-	private HashMap<Byte,Double> english;
+	private double[] english;
 
 	public Caesar(Byte[] vigenered, File gb) throws IOException{
 		this.setSpaceSize(vigenered.length);
@@ -44,7 +36,7 @@ public class Caesar {
 	public void decrypt() throws IOException{
 		System.out.println("In decrypt");
 		Byte[] v=this.getVig();
-//		Byte[]b=new Byte[v.length];
+		//		Byte[]b=new Byte[v.length];
 		//System.out.println("v.size: " + v.size());
 
 		//		for(int k=0;k<v.length;k++){
@@ -55,11 +47,11 @@ public class Caesar {
 		//				System.out.println(b[i]);
 		//			}
 		double o=calcChi(v);
-		
+
 		double [] sure=new double[255];
 		sure[0]=o;
 		//System.out.println("Sure.length is: "+ sure.length);
-		
+
 		Byte[] thisone=new Byte[v.length];
 		for(int i=0;i<v.length;i++){
 			thisone[i]=v[i];
@@ -77,7 +69,7 @@ public class Caesar {
 			//System.in.read();
 			//System.out.println("Comparing Chis in Decrypt");
 		}
-		
+
 		int bestIndex=0;
 		for(int j=1;j<sure.length;j++ ){
 			if(!compareChis(sure[bestIndex],sure[j])){
@@ -86,14 +78,14 @@ public class Caesar {
 		}
 
 		Byte[] best = shiftBy(v,bestIndex+1); //+1
-//		v.remove(k);
-//		v.add(k,check);
+		//		v.remove(k);
+		//		v.add(k,check);
 		//System.in.read();
-		
+
 		System.out.println("Setting vig");
 		this.setVig(best);
 	}
-	
+
 	public boolean compareChis(double o, double s){
 		//System.out.print("*");
 		if(o<s){
@@ -156,34 +148,49 @@ public class Caesar {
 	}
 
 	public double calcChi(Byte[] b){
-		HashMap<Byte, Double> cFreq=new HashMap<Byte, Double>();
+		//		HashMap<Byte, Double> cFreq=new HashMap<Byte, Double>();
+		//
+		//		for(Byte c:b){
+		//			if(!cFreq.containsKey(c)){
+		//				cFreq.put(c,1.0);
+		//			}
+		//			else{
+		//				cFreq.put(c, cFreq.get(c)+1);
+		//			}
+		//		}
+		//		for (Map.Entry<Byte,Double> entry : cFreq.entrySet()) {
+		//			cFreq.put(entry.getKey(), entry.setValue(entry.getValue()/cFreq.size()));		 
+		//		}
+		//		//System.out.println("Done Calculatuing frequncies in calcChi");
+		//		double temp=0.0;
+		//		for (Map.Entry<Byte,Double> entry : cFreq.entrySet()) {
+		//			if(this.english.get(entry.getKey())!=null){
+		//				double t1=entry.getValue();
+		//				//System.out.println("entry value: "+ entry.);
+		//				double t2=this.english.get(entry.getKey());
+		//				//temp=temp+((Math.pow(entry.getValue()-this.english.get(entry),2))/this.english.get(entry));
+		//				temp=temp+((Math.pow((t1-t2), 2))/t2);
+		//			}
+		//			else
+		//				temp=temp+1005.99;
+		//		}
+		//		//System.out.println("returnign calcChi");
+		//		return temp;
 
-		for(Byte c:b){
-			if(!cFreq.containsKey(c)){
-				cFreq.put(c,1.0);
-			}
-			else{
-				cFreq.put(c, cFreq.get(c)+1);
-			}
+		int[] counts = new int[255];
+		for(int i=0; i<255; i++) {
+			counts[i] = 0;
 		}
-		for (Map.Entry<Byte,Double> entry : cFreq.entrySet()) {
-			cFreq.put(entry.getKey(), entry.setValue(entry.getValue()/cFreq.size()));		 
+
+		//make an expected count array from warandpeace by freq
+
+		double sum1 =0;
+		int size = this.getSpaceSize();
+		for(int j=0; j<26; j++) {
+			sum1 = sum1 + Math.pow((counts[j] - size*this.getEnglish()[j]),2)/(size*this.getEnglish()[j]);
 		}
-		//System.out.println("Done Calculatuing frequncies in calcChi");
-		double temp=0.0;
-		for (Map.Entry<Byte,Double> entry : cFreq.entrySet()) {
-			if(this.english.get(entry.getKey())!=null){
-				double t1=entry.getValue();
-				//System.out.println("entry value: "+ entry.);
-				double t2=this.english.get(entry.getKey());
-				//temp=temp+((Math.pow(entry.getValue()-this.english.get(entry),2))/this.english.get(entry));
-				temp=temp+((Math.pow((t1-t2), 2))/t2);
-			}
-			else
-				temp=temp+1005.99;
-		}
-		//System.out.println("returnign calcChi");
-		return temp;
+
+		return sum1;
 	}
 	//	private char[] decrypt(int key){
 	//		char [] cleartext = new char[this.getCiphertext().length];
@@ -215,36 +222,28 @@ public class Caesar {
 		this.vig = vig;
 	}
 
-	public HashMap<Byte, Double> makeEnglish(File h) throws IOException{
+	public double[] makeEnglish(File h) throws IOException{
 		System.out.println("Making english");
 		RandomAccessFile b=new RandomAccessFile(h,"r");
 		byte[]rabbit=new byte[(int)b.length()];
 		b.read(rabbit);
 		b.close();
-		Map<Byte, Double> mFreq=new HashMap<Byte,Double>(255);
-		Byte[] btoB=new Byte[rabbit.length];
-		for (int i=0;i<rabbit.length;i++){
-			btoB[i]=Byte.valueOf(rabbit[i]);
+		double[] mFreq=new double[255];
+		for(int i=0;i<rabbit.length; i++){
+			mFreq[rabbit[i]]+=1;
 		}
-		for(Byte y:btoB){
-			if(!mFreq.containsKey(y)){
-				mFreq.put(y, 1.0);
-			}
-			else{
-				mFreq.put(y, (mFreq.get(y)+1));
-			}
+		for(double d:mFreq){
+			d/=(this.getSpaceSize()*6);
 		}
-		for (Map.Entry<Byte,Double> entry : mFreq.entrySet()) {
-			mFreq.put(entry.getKey(), entry.setValue(entry.getValue()/mFreq.size()));		 
-		}
+		
 		//this.setEnglish((HashMap<Byte, Double>)mFreq);
-		return (HashMap<Byte, Double>)mFreq;
+		return mFreq;
 
 	}
-	public HashMap<Byte,Double> getEnglish() {
+	public double[] getEnglish() {
 		return english;
 	}
-	public void setEnglish(HashMap<Byte,Double> english) {
+	public void setEnglish(double[] english) {
 		this.english = english;
 	}
 }
