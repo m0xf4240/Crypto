@@ -28,22 +28,22 @@ public class Driver {
 			return;
 		}
 
-		Vigenere v=new Vigenere(message);
+		Vigenere v=new Vigenere(message, book);
 		System.out.println("Vig made");
-		Caesar c=new Caesar(v.results,book);
-		System.out.println("Cae made");
-		Byte[] thign=v.flip(c.getVig());
-		System.out.println("in cols");
+//		Caesar c=new Caesar(v.results,book);
+//		System.out.println("Cae made");
+//		Byte[] thign=v.flip(c.getVig());
+//		System.out.println("in cols");
 //		for(int i=0;i<c.getVig().size();i++){
 //			for (int j=0;j<c.getVig().getFirst().length;j++){
 //				System.out.println((char)c.getVig().get(i)[j].intValue());
 //			}
 //		}
-		//wahbah[hetk
-		for(int i=0;i<thign.length;i++){
-			
-			System.out.print(thign[i]);
-		}
+//		//wahbah[hetk
+//		for(int i=0;i<thign.length;i++){
+//			
+//			System.out.print(thign[i]);
+//		}
 
 		//		BookAnalyzer ba = new BookAnalyzer();
 		//		HashMap<Byte, Integer> englishMono = ba.analyzeByte(book);
@@ -56,7 +56,7 @@ public class Driver {
 		//		LoadCipher lt = new LoadCipher();
 		//		ArrayList<Byte> cipher = lt.load(message);
 
-		System.out.println();
+//		System.out.println();
 		//		System.in.read();
 
 		//Caesar c = new Caesar(ciphertext, size);

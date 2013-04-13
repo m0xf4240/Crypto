@@ -14,18 +14,17 @@ public class Caesar {
 
 	private char[] ciphertext;
 	private int spaceSize;
-	private LinkedList<Byte[]> vig;
+	private Byte[] vig;
 	private HashMap<Byte,Double> english;
 
-	public Caesar(LinkedList<Byte[]> vigenered, File gb) throws IOException{
-		this.setSpaceSize(vigenered.get(0).length);
+	public Caesar(Byte[] vigenered, File gb) throws IOException{
+		this.setSpaceSize(vigenered.length);
 		this.setVig(vigenered);
-		System.out.println("Vig size passed:"+ this.getVig().getFirst().length);
+		System.out.println("Vig size passed:"+ this.getVig().length);
 		this.setEnglish(makeEnglish(gb));
 		decrypt();
-		
-		//ArrayList<CharBuffer> ciphercol=this.toChars();
 
+		//ArrayList<CharBuffer> ciphercol=this.toChars();
 
 	}
 
@@ -44,55 +43,57 @@ public class Caesar {
 
 	public void decrypt() throws IOException{
 		System.out.println("In decrypt");
-		LinkedList<Byte[]> v=this.getVig();
-		Byte[]b=new Byte[v.getFirst().length];
+		Byte[] v=this.getVig();
+//		Byte[]b=new Byte[v.length];
 		//System.out.println("v.size: " + v.size());
 
-		for(int k=0;k<v.size();k++){
-			b=v.get(k);
-			//			System.out.println(v.get(1)[1]);
-			//			System.out.println("v.getk: " +v.get(k)[1] + " " + k);
-			//			System.out.println("b:");
-			for(int i=0;i<b.length;i++){
-				System.out.println(b[i]);
-			}
-			double o=calcChi(b);
-			double [] sure=new double[b.length];
-			sure[0]=o;
-			//System.out.println("Sure.length is: "+ sure.length);
-			Byte[] thisone=new Byte[b.length];
+		//		for(int k=0;k<v.length;k++){
+		//			System.out.println(v.get(1)[1]);
+		//			System.out.println("v.getk: " +v.get(k)[1] + " " + k);
+		//			System.out.println("b:");
+		//			for(int i=0;i<v.length;i++){
+		//				System.out.println(b[i]);
+		//			}
+		double o=calcChi(v);
+		
+		double [] sure=new double[255];
+		sure[0]=o;
+		//System.out.println("Sure.length is: "+ sure.length);
+		
+		Byte[] thisone=new Byte[v.length];
+		for(int i=0;i<v.length;i++){
+			thisone[i]=v[i];
+		}
 
-			for(int i=0;i<b.length;i++){
-				thisone[i]=b[i];
-			}
-			
-			
-			for(int i=1;i<b.length;i++){
-				thisone=shiftBytes(thisone);
-				sure[i]=calcChi(thisone);
-//				if (i%100==0){
-//					System.out.println(i);
-//				}
-			}
+
+		for(int i=1;i<sure.length;i++){
+			thisone=shiftBytes(thisone);
+			sure[i]=calcChi(thisone);
+			//				if (i%100==0){
+			//					System.out.println(i);
+			//				}
+			//			}
 			System.out.println("Out");
 			//System.in.read();
-			int bestIndex=0;
 			//System.out.println("Comparing Chis in Decrypt");
-			for(int i=1;i<sure.length;i++ ){
-				if(!compareChis(sure[bestIndex],sure[i])){
-					bestIndex=i;
-				}
-			}
-			
-			Byte[] check = shiftBy(b,bestIndex+1); //+1
-			v.remove(k);
-			v.add(k,check);
-			//System.in.read();
 		}
-		System.out.println("Setting vig");
-		this.setVig(v);
+		
+		int bestIndex=0;
+		for(int j=1;j<sure.length;j++ ){
+			if(!compareChis(sure[bestIndex],sure[j])){
+				bestIndex=j;
+			}
+		}
 
+		Byte[] best = shiftBy(v,bestIndex+1); //+1
+//		v.remove(k);
+//		v.add(k,check);
+		//System.in.read();
+		
+		System.out.println("Setting vig");
+		this.setVig(best);
 	}
+	
 	public boolean compareChis(double o, double s){
 		//System.out.print("*");
 		if(o<s){
@@ -207,10 +208,10 @@ public class Caesar {
 	public void setSpaceSize(int spaceSize) {
 		this.spaceSize = spaceSize;
 	}
-	public LinkedList<Byte[]> getVig() {
+	public Byte[] getVig() {
 		return vig;
 	}
-	public void setVig(LinkedList<Byte[]> vig) {
+	public void setVig(Byte[] vig) {
 		this.vig = vig;
 	}
 
