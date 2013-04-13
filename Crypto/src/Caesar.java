@@ -23,10 +23,7 @@ public class Caesar {
 		System.out.println("Vig size passed:"+ this.getVig().getFirst().length);
 		this.setEnglish(makeEnglish(gb));
 		decrypt();
-		//at 1:24AM sum is 212677.0 and e is 0.066 and c is -2.1828126877357703E-11
-		//so the keylength ends up being thought to be 1....not sure if problem or silly thing too tired
-		//tired lexie code looks like ridiculousness so I will no to sleew
-		//do we want to be analyzing this in bytes or chars?
+		
 		//ArrayList<CharBuffer> ciphercol=this.toChars();
 
 
@@ -37,7 +34,7 @@ public class Caesar {
 	//			char[] cleartext = this.decrypt(key);
 	////			for (int i=0; i<cleartext.length; i++){
 	////				System.out.print(cleartext[i]);
-	//////			}
+	//////			} 
 	////			System.out.println("\n");
 	////
 	////			//Press enter to continue

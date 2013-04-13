@@ -42,7 +42,7 @@ public class Driver {
 		//wahbah[hetk
 		for(int i=0;i<thign.length;i++){
 			
-			System.out.print((char)thign[i].intValue());
+			System.out.print(thign[i]);
 		}
 //dkrutuitfjddjkdjhhdfjjj
 
