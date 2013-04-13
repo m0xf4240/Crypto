@@ -82,17 +82,24 @@ public final class ScoreText {
 	 */
 	public double createIndexofC (int[] cipherFraction){
 		double index=0.0;
+		
+		int totcount = 0;
+		for (int i=0; i<cipherFraction.length; i++) {
+			totcount= totcount + cipherFraction[i]; // Can also be done by total += value;
+		}
 		double sum = 0;
 		for (int i=0; i<cipherFraction.length; i++) {
-			this.sum= this.sum + cipherFraction[i]; // Can also be done by total += value;
+			sum = sum+ cipherFraction[i]*(cipherFraction[i]-1);
 		}
 		
-		for (int i=0; i<cipherFraction.length; i++){
-			Double ml = new Double(cipherFraction[i]); // / this.sum);
-			sum+=ml;
-			System.out.print(","+ml);
-			index += (ml*(ml-1))/(this.sum*(this.sum - 1));
-		}
+		index = sum / (totcount * (totcount-1));
+		
+//		for (int i=0; i<cipherFraction.length; i++){
+//			Double ml = new Double(cipherFraction[i]); // / this.sum);
+//			sum+=ml;
+////			System.out.print(","+ml);
+//			index += (ml*(ml-1))/(this.sum*(this.sum - 1));
+//		}
 		return index;
 	}
 

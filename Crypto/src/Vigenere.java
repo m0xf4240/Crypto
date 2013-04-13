@@ -42,12 +42,14 @@ public class Vigenere {
 		 
 		
 		 ScoreText st=new ScoreText();		 
-		 for (int i=1; i<=5; i++){
+		 for (int i=1; i<=30; i++){
 			 double [] cioc=new double[i]; 
 			 
 			 for (int k=0; k<i; k++){
 				 int[] counts = new int[256]; 
 				 for (int j=k; j<cbytes.length; j+=i){
+//					 System.out.print(","+((int)cbytes[j]&0xff));
+//					 System.out.print(","+(char)((int)cbytes[j]&0xff));
 					 counts[(int)cbytes[j]&0xff]++;
 				 }
 				 cioc[k]=st.createIndexofC(counts);
