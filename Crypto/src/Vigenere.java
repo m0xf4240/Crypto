@@ -19,6 +19,10 @@ public class Vigenere {
 
 
 		 Byte[]cbytes=ba.analyzeToBytes(cipher);
+		 for(int i=0;i<30;i++){
+			 System.out.println(cbytes[i]&0xff);
+		 }
+		 System.in.read();
 
 
 
