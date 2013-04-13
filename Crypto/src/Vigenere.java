@@ -1,5 +1,7 @@
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.LinkedList;
@@ -19,9 +21,70 @@ public class Vigenere {
 
 
 		 Byte[]cbytes=ba.analyzeToBytes(cipher);
-		 for(int i=0;i<30;i++){
-			 System.out.println(cbytes[i]&0xff);
+		 byte[]bbytes=new byte[cbytes.length];
+		 for(int i=0;i<cbytes.length;i+=6){
+			 byte temp=cbytes[i].byteValue();
+			 int t=(int)temp;
+			 t=t+183;
+			 temp=(byte)t;
+			 bbytes[i] = temp;
+//			 System.out.println(bbytes[i]);
+//			
+//			 System.in.read();
 		 }
+		 for(int i=1;i<cbytes.length;i+=6){
+			 byte temp=cbytes[i].byteValue();
+			 int t=(int)temp;
+			 t=t+35;
+			 temp=(byte)t;
+			 bbytes[i] = temp;
+		 }
+		 for(int i=2;i<cbytes.length;i+=6){
+			 byte temp=cbytes[i].byteValue();
+			 int t=(int)temp;
+			 t=t+27;
+			 temp=(byte)t;
+			 bbytes[i] = temp;
+		 }
+		 for(int i=3;i<cbytes.length;i+=6){
+			 byte temp=cbytes[i].byteValue();
+			 int t=(int)temp;
+			 t=t+121;
+			 temp=(byte)t;
+			 bbytes[i] = temp;
+		 }
+		 for(int i=4;i<cbytes.length;i+=6){
+			 byte temp=cbytes[i].byteValue();
+			 int t=(int)temp;
+			 t=t+247;
+			 temp=(byte)t;
+			 bbytes[i] = temp;
+		 }
+		 for(int i=5;i<cbytes.length;i+=6){
+			 byte temp=cbytes[i].byteValue();
+			 int t=(int)temp;
+			 t=t+216;
+			 temp=(byte)t;
+			 bbytes[i] = temp;
+		 }
+
+
+		 File che=new File("src/translated.txt");
+		 try{
+			 if(!che.exists()){
+				 che.createNewFile();}
+			 FileWriter fw = new FileWriter(che.getAbsoluteFile(),true);
+			 BufferedWriter bw = new BufferedWriter(fw);
+
+			 for(int i=0;i<cbytes.length;i++){
+				 bw.write((char)(bbytes[i]));
+			 }
+			 bw.close();
+		 }
+		 catch(IOException e){
+			 e.printStackTrace();
+		 }
+		 System.out.println("Enter bitch");
 		 System.in.read();
 
 
@@ -71,7 +134,7 @@ public class Vigenere {
 		 //byte[] keysize = new byte[1];
 		 //System.out.println("Hit Enter to Continue.");
 		 // System.out.println("Enter Keysize to continue");
-		// System.in.read();
+		 // System.in.read();
 
 		 this.sum=st.sum;
 		 // int keylength=this.keywordLength(eioc, cioc);
@@ -102,7 +165,7 @@ public class Vigenere {
 				 cbytes[j]= shifted[index++];
 			 }
 		 }
-		 
+
 		 for (int l=0; l<cbytes.length; l++) {
 			 System.out.print((char)cbytes[l].intValue());
 		 }
